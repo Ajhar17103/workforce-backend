@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: workforce
+  profiles:
+    active: dev
