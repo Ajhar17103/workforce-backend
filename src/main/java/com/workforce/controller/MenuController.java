@@ -1,0 +1,94 @@
+package com.workforce.controller;
+
+
+import com.workforce.common.AbstractController;
+import com.workforce.controller.api.MenuApi;
+import com.workforce.dto.master.MenuDto;
+import com.workforce.entity.master.Menu;
+import com.workforce.param.PageableParam;
+import com.workforce.param.master.MenuParam;
+import com.workforce.service.MenuService;
+import com.workforce.support.ApiResponseDto;
+import com.workforce.support.DeleteResponseDto;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.UUID;
+
+@Slf4j
+@RestController
+public class MenuController extends AbstractController implements MenuApi {
+
+    private final MenuService menuService;
+
+    @Autowired
+    public MenuController(MenuService menuService) {
+        this.menuService = menuService;
+    }
+
+    @Override
+    public ResponseEntity<ApiResponseDto<MenuDto>> save(MenuParam param) throws Exception {
+        return generateResponse(
+                new MenuDto(),
+                HttpStatus.CREATED,
+                i18n("x0.has.been.saved.successfully", "menu")
+        );
+    }
+
+    @Override
+    public ResponseEntity<ApiResponseDto<MenuDto>> findById(UUID id) {
+        return generateResponse(
+                new MenuDto(),
+                HttpStatus.OK,
+                i18n("x0.get.successfully", "menu")
+        );
+    }
+
+    @Override
+    public ResponseEntity<?> findAll(PageableParam pageable) {
+        if (pageable.isPageable()) {
+            return generateResponse(
+                    List.of(),
+                    HttpStatus.OK,
+                    i18n("x0.get.successfully", "menus")
+            );
+        }
+        return generateResponse(
+                List.of(),
+                HttpStatus.OK,
+                i18n("x0.get.successfully", "menus")
+        );
+    }
+
+    @Override
+    public ResponseEntity<ApiResponseDto<MenuDto>> update(UUID id, MenuParam param) throws Exception {
+//        param.setId(id.toString());
+        return generateResponse(
+                new MenuDto(),
+                HttpStatus.OK,
+                i18n("x0.has.been.updated.successfully", "menu")
+        );
+    }
+
+    @Override
+    public ResponseEntity<ApiResponseDto<MenuDto>> statusUpdate(UUID id) throws Exception {
+        return generateResponse(
+               new MenuDto(),
+                HttpStatus.OK,
+                i18n("x0.status.has.been.updated.successfully", "menu")
+        );
+    }
+
+    @Override
+    public ResponseEntity<DeleteResponseDto> deleteById(UUID id) throws Exception {
+//        menuService.delete(id);
+        return generateResponse(
+                HttpStatus.NO_CONTENT,
+                i18n("x0.has.been.deleted.successfully", "menu")
+        );
+    }
+}

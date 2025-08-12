@@ -8,10 +8,10 @@
 		<version>3.5.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.azhar</groupId>
+	<groupId>com.workforce</groupId>
 	<artifactId>wrokforce</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>wrokforce</name>
+	<name>workforce</name>
 	<description>Workzone – A centralized workforce, project, leave, task, and attendance management system for organizations.</description>
 	<properties>
 		<java.version>21</java.version>
