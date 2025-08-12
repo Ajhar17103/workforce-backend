@@ -1,25 +1,42 @@
 package com.workforce.mapper;
 
-
-
+import com.workforce.dto.master.MenuDto;
 import com.workforce.entity.master.Menu;
 import com.workforce.param.master.MenuParam;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class MenuMapper {
 
-    public Menu toMenu(final MenuParam request) {
+    public Menu toEntity(final MenuParam request) {
         return Menu.builder()
                 .name(request.getName())
                 .menuType(request.getMenuType())
                 .parentId(request.getParentId())
                 .icon(request.getIcon())
                 .path(request.getPath())
+                .active(true)  // assuming new menu is active by default
                 .build();
+    }
+
+    public MenuDto toDto(final Menu menu) {
+        if (menu == null) {
+            return null;
+        }
+        MenuDto dto = new MenuDto();
+        dto.setId(menu.getId());
+        dto.setName(menu.getName());
+        dto.setMenuType(menu.getMenuType());
+        dto.setParentId(menu.getParentId());
+        dto.setIcon(menu.getIcon());
+        dto.setPath(menu.getPath());
+        dto.setActive(menu.getActive());
+        dto.setCreatedAt(menu.getCreatedAt());
+        dto.setUpdatedAt(menu.getUpdatedAt());
+        return dto;
     }
 
     public void mergeMenuInfo(final Menu menu, final MenuParam request) {
@@ -39,6 +56,6 @@ public class MenuMapper {
             menu.setPath(request.getPath());
         }
     }
+
+
 }
-
-
