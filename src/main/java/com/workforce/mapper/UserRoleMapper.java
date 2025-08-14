@@ -37,6 +37,4 @@ public class UserRoleMapper {
             entity.setName(request.getName());
         }
     }
-
-
 }

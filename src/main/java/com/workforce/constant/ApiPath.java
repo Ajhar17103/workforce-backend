@@ -38,4 +38,9 @@ public final class ApiPath {
         public static final String USER_ROLE_IDENTIFIER = "/{id}";
     }
 
+    public static class RoleMenuPermission {
+        public static final String ROOT_PATH = "/master-data/api/v1/role-menu-permissions";
+        public static final String ROLE_MENU_PERMISSION_IDENTIFIER = "/{id}";
+    }
+
 }

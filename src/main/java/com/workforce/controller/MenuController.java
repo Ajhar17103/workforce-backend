@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@CrossOrigin("*")
 public class MenuController extends AbstractController implements MenuApi {
 
     private final MenuService menuService;
@@ -50,25 +49,11 @@ public class MenuController extends AbstractController implements MenuApi {
 
     @Override
     public ResponseEntity<?> findAll(PageableParam pageableParam) {
-//        if (pageableParam.isPageable()) {
-//            PageRequest pageRequest = PageRequest.of(
-//                    pageableParam.getPage(),
-//                    pageableParam.getSize(),
-//                    Sort.by(pageableParam.getSortDirection(), pageableParam.getSortBy())
-//            );
-//            return generateResponse(
-//                    menuService.getAll(pageRequest),
-//                    HttpStatus.OK,
-//                    i18n("x0.get.successfully", "menus")
-//            );
-//        } else {
-            Sort sort = Sort.by(Sort.Direction.ASC, "name"); // default sorting, adjust as needed
             return generateResponse(
-                    menuService.getAll(sort),
+                    menuService.getAll(),
                     HttpStatus.OK,
                     i18n("x0.get.successfully", "menus")
             );
-//        }
     }
 
     @Override

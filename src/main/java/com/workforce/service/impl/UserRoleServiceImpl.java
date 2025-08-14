@@ -49,8 +49,8 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public List<UserRoleDto> getAll(Sort sort) {
-        List<UserRole> role = userRoleRepository.findAll(sort);
+    public List<UserRoleDto> getAll() {
+        List<UserRole> role = userRoleRepository.findAll();
         return role.stream().map(this::entityToDto).collect(Collectors.toList());
     }
 

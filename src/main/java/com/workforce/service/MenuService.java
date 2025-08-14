@@ -17,7 +17,8 @@ public interface MenuService {
 
     Page<MenuDto> getAll( Pageable pageable);
 
-    List<MenuDto> getAll(Sort sort);
+    List<MenuDto> getAll();
+
 
     MenuDto update(MenuParam param) throws Exception;
 

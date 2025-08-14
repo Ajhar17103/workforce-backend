@@ -17,7 +17,7 @@ public interface UserRoleService {
 
     Page<UserRoleDto> getAll(Pageable pageable);
 
-    List<UserRoleDto> getAll(Sort sort);
+    List<UserRoleDto> getAll();
 
     UserRoleDto update(UserRoleParam param) throws Exception;
 

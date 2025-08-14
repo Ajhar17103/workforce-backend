@@ -58,7 +58,7 @@ public interface UserRoleApi extends GetApi<UserRoleDto>, GetAllApi<UserRole>, C
     })
     @GetMapping
     @Override
-    default ResponseEntity<?> findAll(PageableParam pageable) {
+    default ResponseEntity<?> findAll(@Schema(hidden = true) PageableParam pageable) {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
