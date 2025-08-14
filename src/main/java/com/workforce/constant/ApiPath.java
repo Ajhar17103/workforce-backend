@@ -29,8 +29,13 @@ public final class ApiPath {
     }
 
     public static class Menu {
-        public static final String ROOT_PATH = "/api/v1/menus";
+        public static final String ROOT_PATH = "/master-data/api/v1/menus";
         public static final String MENU_IDENTIFIER = "/{id}";
+    }
+
+    public static class UserRole {
+        public static final String ROOT_PATH = "/master-data/api/v1/roles";
+        public static final String USER_ROLE_IDENTIFIER = "/{id}";
     }
 
 }

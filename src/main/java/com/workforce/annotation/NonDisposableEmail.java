@@ -1,6 +1,7 @@
 package com.workforce.annotation;
 
 
+import com.workforce.annotation.validators.EmailDomainValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

@@ -13,12 +13,12 @@ public class MenuMapper {
 
     public Menu toEntity(final MenuParam request) {
         return Menu.builder()
-                .name(request.getName())
-                .menuType(request.getMenuType())
                 .parentId(request.getParentId())
+                .parentMenu(request.getParentMenu())
+                .name(request.getName())
                 .icon(request.getIcon())
                 .path(request.getPath())
-                .active(true)  // assuming new menu is active by default
+                .active(true)
                 .build();
     }
 
@@ -28,9 +28,9 @@ public class MenuMapper {
         }
         MenuDto dto = new MenuDto();
         dto.setId(menu.getId());
-        dto.setName(menu.getName());
-        dto.setMenuType(menu.getMenuType());
         dto.setParentId(menu.getParentId());
+        dto.setName(menu.getName());
+        dto.setParentMenu(menu.getParentMenu());
         dto.setIcon(menu.getIcon());
         dto.setPath(menu.getPath());
         dto.setActive(menu.getActive());
@@ -43,8 +43,8 @@ public class MenuMapper {
         if (StringUtils.isNotBlank(request.getName()) && !menu.getName().equals(request.getName())) {
             menu.setName(request.getName());
         }
-        if (StringUtils.isNotBlank(request.getMenuType()) && !menu.getMenuType().equals(request.getMenuType())) {
-            menu.setMenuType(request.getMenuType());
+        if (StringUtils.isNotBlank(request.getParentMenu()) && !menu.getParentMenu().equals(request.getParentMenu())) {
+            menu.setParentMenu(request.getParentMenu());
         }
         if (request.getParentId() != null && !request.getParentId().equals(menu.getParentId())) {
             menu.setParentId(request.getParentId());

@@ -1,4 +1,5 @@
-package com.workforce.annotation;
+package com.workforce.annotation.validators;
+import com.workforce.annotation.NonDisposableEmail;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Value;
