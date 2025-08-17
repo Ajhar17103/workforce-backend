@@ -1,29 +1,29 @@
 package com.workforce.mapper;
 
 
-import com.workforce.dto.master.UserRoleDto;
-import com.workforce.entity.master.UserRole;
-import com.workforce.param.master.UserRoleParam;
+import com.workforce.dto.master.DepartmentDto;
+import com.workforce.entity.master.Department;
+import com.workforce.param.master.DepartmentParam;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class UserRoleMapper {
+public class DepartmentMapper {
 
-    public UserRole toEntity(final UserRoleParam request) {
-        return UserRole.builder()
+    public Department toEntity(final DepartmentParam request) {
+        return Department.builder()
                 .name(request.getName())
                 .active(true)
                 .build();
     }
 
-    public UserRoleDto toDto(final UserRole entity) {
+    public DepartmentDto toDto(final Department entity) {
         if (entity == null) {
             return null;
         }
-        UserRoleDto dto = new UserRoleDto();
+        DepartmentDto dto = new DepartmentDto();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setActive(entity.getActive());
@@ -32,7 +32,7 @@ public class UserRoleMapper {
         return dto;
     }
 
-    public void mergeRoleInfo(final UserRole entity, final UserRoleParam request) {
+    public void mergeDepartmentInfo(final Department entity, final DepartmentParam request) {
         if (StringUtils.isNotBlank(request.getName()) && !entity.getName().equals(request.getName())) {
             entity.setName(request.getName());
         }

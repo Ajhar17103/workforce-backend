@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,7 +59,7 @@ public class UserRoleServiceImpl implements UserRoleService {
         UserRole existingRole = userRoleRepository.findById(param.getId())
                 .orElseThrow(() -> new RuntimeException("User Role not found with id: " + param.getId()));
 
-        userRoleMapper.mergeMenuInfo(existingRole, param);
+        userRoleMapper.mergeRoleInfo(existingRole, param);
         UserRole updatedMenu = userRoleRepository.save(existingRole);
         return entityToDto(updatedMenu);
     }

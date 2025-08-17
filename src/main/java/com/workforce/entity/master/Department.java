@@ -1,0 +1,29 @@
+package com.workforce.entity.master;
+
+import com.workforce.entity.BaseEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
+
+@Data
+@Getter
+@Setter
+@Entity
+@ToString
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "departments")
+@EqualsAndHashCode(callSuper = true)
+@SQLRestriction("is_deleted = false")
+@SQLDelete(sql = "UPDATE departments SET is_deleted=1 WHERE id=?")
+public class Department extends BaseEntity {
+
+    @Column(nullable = false, unique = true)
+    private String name;
+}

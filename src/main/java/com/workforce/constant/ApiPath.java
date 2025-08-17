@@ -43,4 +43,9 @@ public final class ApiPath {
         public static final String ROLE_MENU_PERMISSION_IDENTIFIER = "/{id}";
     }
 
+    public static class Department {
+        public static final String ROOT_PATH = "/master-data/api/v1/departments";
+        public static final String DEPARTMENT_IDENTIFIER = "/{id}";
+    }
+
 }

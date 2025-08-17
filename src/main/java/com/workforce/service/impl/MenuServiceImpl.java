@@ -8,8 +8,6 @@ import com.workforce.repository.MenuRepository;
 import com.workforce.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,11 +37,6 @@ public class MenuServiceImpl implements MenuService {
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Menu not found with id: " + id));
         return entityToDto(menu);
-    }
-
-    @Override
-    public Page<MenuDto> getAll(Pageable pageable) {
-        return menuRepository.findAll(pageable).map(this::entityToDto);
     }
 
     @Override

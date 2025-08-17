@@ -2,9 +2,6 @@ package com.workforce.service;
 
 import com.workforce.dto.master.MenuDto;
 import com.workforce.param.master.MenuParam;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,10 +12,7 @@ public interface MenuService {
 
     MenuDto getById(UUID id);
 
-    Page<MenuDto> getAll( Pageable pageable);
-
     List<MenuDto> getAll();
-
 
     MenuDto update(MenuParam param) throws Exception;
 
