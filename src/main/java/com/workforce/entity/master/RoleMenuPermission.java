@@ -19,7 +19,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Table(name = "role_menu_permissions")
 @EqualsAndHashCode(callSuper = true)
 @SQLRestriction("is_deleted = false")
-@SQLDelete(sql = "UPDATE role_menu_permissions SET is_deleted=1 WHERE id=?")
+@SQLDelete(sql = "UPDATE role_menu_permissions SET is_deleted=true WHERE id=?")
 public class RoleMenuPermission extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
