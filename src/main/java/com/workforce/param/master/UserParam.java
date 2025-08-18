@@ -56,7 +56,7 @@ public class UserParam extends BaseParam {
     private String presentAddress;
 
     @NotNull(message = "x0.is.required")
-    @Schema(example = "O+", description = "Blood Group of the user")
+    @Schema(example = "A_POSITIVE", description = "Blood Group of the user")
     private BloodGroup bloodGroup;
 
     @NotNull(message = "x0.is.required")
