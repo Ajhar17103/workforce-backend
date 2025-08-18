@@ -3,7 +3,7 @@ package com.workforce.mapper;
 import com.workforce.dto.master.RoleMenuPermissionDto;
 import com.workforce.entity.master.Menu;
 import com.workforce.entity.master.RoleMenuPermission;
-import com.workforce.entity.master.UserRole;
+import com.workforce.entity.master.Role;
 import com.workforce.param.master.RoleMenuPermissionParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RoleMenuPermissionMapper {
 
-    public RoleMenuPermission toEntity(RoleMenuPermissionParam param, UserRole role, Menu menu) {
+    public RoleMenuPermission toEntity(RoleMenuPermissionParam param, Role role, Menu menu) {
         return RoleMenuPermission.builder()
                 .role(role)
                 .menu(menu)

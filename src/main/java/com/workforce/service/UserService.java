@@ -1,19 +1,28 @@
 package com.workforce.service;
 
 
-import com.workforce.param.auth.ChangePasswordRequest;
-import com.workforce.param.auth.ProfileUpdateRequest;
+import com.workforce.dto.master.UserDto;
+import com.workforce.param.master.UserParam;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
+import java.util.List;
+import java.util.UUID;
 
 public interface UserService extends UserDetailsService {
 
-    void updateProfileInfo(ProfileUpdateRequest request, String userId);
+    UserDto create(UserParam param) throws Exception;
 
-    void changePassword(ChangePasswordRequest request, String userId);
+    UserDto getById(UUID id);
 
-    void deactivateAccount(String userId);
+    Page<UserDto> getAll(Pageable pageable);
 
-    void reactivateAccount(String userId);
+    List<UserDto> getAll();
 
-    void deleteAccount(String userId);
+    UserDto update(UserParam param) throws Exception;
+
+    UserDto statusUpdate(UUID id) throws Exception;
+
+    void delete(UUID id) throws Exception;
 }

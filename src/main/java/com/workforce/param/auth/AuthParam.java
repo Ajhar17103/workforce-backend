@@ -11,7 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AuthenticationRequest {
+public class AuthParam {
     @NotBlank(message = "VALIDATION.AUTHENTICATION.EMAIL.NOT_BLANK")
     @Email(message = "VALIDATION.AUTHENTICATION.EMAIL.FORMAT")
     @Schema(example = "admin@gmail.com")

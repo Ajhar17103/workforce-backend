@@ -1,10 +1,9 @@
 package com.workforce.controller.api;
 
 
-import com.workforce.dto.auth.AuthenticationResponse;
-import com.workforce.param.auth.AuthenticationRequest;
-import com.workforce.param.auth.RefreshRequest;
-import com.workforce.param.auth.RegistrationRequest;
+import com.workforce.dto.auth.AuthDto;
+import com.workforce.param.auth.AuthParam;
+import com.workforce.param.auth.RefreshTokenParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -17,7 +16,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RequestMapping("/api/v1/auth")
 @Tag(name = "Authentication", description = "Authentication API")
-public interface AuthenticationApi {
+public interface AuthApi {
 
     @Operation(summary = "Authenticate user and return JWT token")
     @ApiResponses({
@@ -25,15 +24,8 @@ public interface AuthenticationApi {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @PostMapping(value = "/login", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest request);
+    ResponseEntity<AuthDto> login(@Valid @RequestBody AuthParam request);
 
-    @Operation(summary = "Register new user")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "User registered successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid registration data")
-    })
-    @PostMapping(value = "/register", consumes = APPLICATION_JSON_VALUE)
-    ResponseEntity<Void> register(@Valid @RequestBody RegistrationRequest request);
 
     @Operation(summary = "Refresh JWT token")
     @ApiResponses({
@@ -41,6 +33,6 @@ public interface AuthenticationApi {
             @ApiResponse(responseCode = "400", description = "Invalid refresh token")
     })
     @PostMapping(value = "/refresh", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    ResponseEntity<AuthenticationResponse> refresh(@RequestBody RefreshRequest request);
+    ResponseEntity<AuthDto> refresh(@RequestBody RefreshTokenParam request);
 }
 

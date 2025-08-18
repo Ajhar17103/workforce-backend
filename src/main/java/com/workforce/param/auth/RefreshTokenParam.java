@@ -7,6 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RefreshRequest {
+public class RefreshTokenParam {
+    private String email;
     private String refreshToken;
 }

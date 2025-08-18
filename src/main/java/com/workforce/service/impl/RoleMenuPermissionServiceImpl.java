@@ -3,12 +3,12 @@ package com.workforce.service.impl;
 import com.workforce.dto.master.RoleMenuPermissionDto;
 import com.workforce.entity.master.Menu;
 import com.workforce.entity.master.RoleMenuPermission;
-import com.workforce.entity.master.UserRole;
+import com.workforce.entity.master.Role;
 import com.workforce.mapper.RoleMenuPermissionMapper;
 import com.workforce.param.master.RoleMenuPermissionParam;
 import com.workforce.repository.MenuRepository;
 import com.workforce.repository.RoleMenuPermissionRepository;
-import com.workforce.repository.UserRoleRepository;
+import com.workforce.repository.RoleRepository;
 import com.workforce.service.RoleMenuPermissionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import java.util.UUID;
 public class RoleMenuPermissionServiceImpl implements RoleMenuPermissionService {
 
     private final RoleMenuPermissionRepository roleMenuPermissionRepository;
-    private final UserRoleRepository userRoleRepository;
+    private final RoleRepository roleRepository;
     private final MenuRepository menuRepository;
     private final RoleMenuPermissionMapper roleMenuPermissionMapper;
 
@@ -40,7 +40,7 @@ public class RoleMenuPermissionServiceImpl implements RoleMenuPermissionService 
     @Override
     @Transactional
     public List<RoleMenuPermissionDto> create(UUID roleId, List<RoleMenuPermissionParam> params) {
-        UserRole role = userRoleRepository.findById(roleId)
+        Role role = roleRepository.findById(roleId)
                 .orElseThrow(() -> new RuntimeException("Role not found"));
 
         for (RoleMenuPermissionParam param : params) {

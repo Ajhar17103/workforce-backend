@@ -1,45 +1,95 @@
 package com.workforce.mapper;
 
-import com.workforce.entity.auth.User;
-import com.workforce.param.auth.ProfileUpdateRequest;
-import com.workforce.param.auth.RegistrationRequest;
+import com.workforce.dto.master.UserDto;
+import com.workforce.entity.master.Designation;
+import com.workforce.entity.master.User;
+import com.workforce.entity.master.Role;
+import com.workforce.param.master.UserParam;
+import com.workforce.repository.DesignationRepository;
+import com.workforce.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class UserMapper {
     private final PasswordEncoder passwordEncoder;
+    private final DesignationRepository designationRepository;
+    private final RoleRepository roleRepository;
 
-    public User toUser(final RegistrationRequest request) {
+    public User toEntity(final UserParam request) {
+        Designation designation = designationRepository.findById(request.getDesignationId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid designationId: " + request.getDesignationId()));
+
+        Role role = roleRepository.findById(request.getRoleId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid roleId: " + request.getRoleId()));
+
         return User.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
+                .name(request.getName())
+                .designation(designation)
+                .role(role)
+                .dob(request.getDob())
+                .phone(request.getPhone())
                 .email(request.getEmail())
-                .phoneNumber(request.getPhoneNumber())
-                .password(this.passwordEncoder.encode(request.getPassword()))
-                .enabled(true)
-                .locked(false)
-                .credentialsExpired(false)
-                .emailVerified(false)
-                .phoneVerified(false)
+                .currentAddress(request.getCurrentAddress())
+                .presentAddress(request.getPresentAddress())
+                .bloodGroup(request.getBloodGroup())
+                .profileIcon(request.getProfileIcon())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .active(true)
                 .build();
     }
 
-    public void mergeUserInfo(final User user, final ProfileUpdateRequest request) {
-        if (StringUtils.isNotBlank(request.getFirstName()) && !user.getFirstName()
-                .equals(request.getFirstName())) {
-            user.setFirstName(request.getFirstName());
+    public UserDto toDto(final User entity) {
+        if (entity == null) {
+            return null;
         }
-        if (StringUtils.isNotBlank(request.getLastName()) && !user.getLastName()
-                .equals(request.getLastName())) {
-            user.setLastName(request.getLastName());
+
+        UserDto dto = new UserDto();
+        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+        dto.setDesignationId(entity.getDesignation() != null ? entity.getDesignation().getId() : null);
+        dto.setRoleId(entity.getRole() != null ? entity.getRole().getId() : null);
+        dto.setDob(entity.getDob());
+        dto.setEmail(entity.getEmail());
+        dto.setPhone(entity.getPhone());
+        dto.setCurrentAddress(entity.getCurrentAddress());
+        dto.setPresentAddress(entity.getPresentAddress());
+        dto.setBloodGroup(entity.getBloodGroup());
+        dto.setProfileIcon(entity.getProfileIcon());
+
+        return dto;
+    }
+
+    public void mergeUserInfo(final User entity, final UserParam request) {
+        if (StringUtils.isNotBlank(request.getName()) && !entity.getName().equals(request.getName())) {
+            entity.setName(request.getName());
         }
-        if (request.getDateOfBirth() != null && !request.getDateOfBirth()
-                .equals(user.getDateOfBirth())) {
-            user.setDateOfBirth(request.getDateOfBirth());
+
+        if (request.getDob() != null) {
+            entity.setDob(request.getDob());
+        }
+
+        if (StringUtils.isNotBlank(request.getPhone())) {
+            entity.setPhone(request.getPhone());
+        }
+
+        if (StringUtils.isNotBlank(request.getCurrentAddress())) {
+            entity.setCurrentAddress(request.getCurrentAddress());
+        }
+
+        if (StringUtils.isNotBlank(request.getPresentAddress())) {
+            entity.setPresentAddress(request.getPresentAddress());
+        }
+
+        if (request.getBloodGroup() != null) {
+            entity.setBloodGroup(request.getBloodGroup());
+        }
+
+        if (StringUtils.isNotBlank(request.getProfileIcon())) {
+            entity.setProfileIcon(request.getProfileIcon());
         }
     }
 }

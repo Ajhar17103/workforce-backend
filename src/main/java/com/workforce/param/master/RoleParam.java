@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class UserRoleParam extends BaseParam {
+public class RoleParam extends BaseParam {
 
     @Schema(hidden = true)
     private UUID id;

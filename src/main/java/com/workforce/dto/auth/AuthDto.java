@@ -1,6 +1,6 @@
 package com.workforce.dto.auth;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.workforce.dto.master.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,13 +12,13 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class AuthenticationResponse{
+public class AuthDto {
 
-    @JsonProperty("access_token")
     private String accessToken;
-    @JsonProperty("refresh_token")
+
     private String refreshToken;
-    @JsonProperty("token_type")
+
     private String tokenType;
-    ResponseUserDto userDto;
+
+    private UserDto userDto;
 }

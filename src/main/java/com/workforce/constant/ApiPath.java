@@ -24,8 +24,6 @@ public final class ApiPath {
     public static final class User {
         public static final String ROOT_PATH = BASE_PATH + VERSION + SEPARATOR + "users";
         public static final String USER_IDENTIFIER = IDENTIFIER_ID;
-        public static final String USER_IDENTIFIER_BY_USERNAME = "/find-by-username" + IDENTIFIER_USERNAME;
-        public static final String ME = SEPARATOR + "me";
     }
 
     public static class Menu {

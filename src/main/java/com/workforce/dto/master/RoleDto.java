@@ -12,6 +12,6 @@ import lombok.experimental.SuperBuilder;
 @ToString(callSuper = true)
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
-public class UserRoleDto extends BaseDto {
+public class RoleDto extends BaseDto {
     private String name;
 }

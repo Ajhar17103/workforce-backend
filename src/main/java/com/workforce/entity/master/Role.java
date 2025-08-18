@@ -18,11 +18,11 @@ import org.hibernate.annotations.SQLRestriction;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "usr_roles")
+@Table(name = "roles")
 @EqualsAndHashCode(callSuper = true)
 @SQLRestriction("is_deleted = false")
-@SQLDelete(sql = "UPDATE usr_roles SET is_deleted=true WHERE id=?")
-public class UserRole extends BaseEntity {
+@SQLDelete(sql = "UPDATE roles SET is_deleted=true WHERE id=?")
+public class Role extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String name;
