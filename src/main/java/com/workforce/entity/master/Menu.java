@@ -23,7 +23,7 @@ import java.util.UUID;
 @Table(name = "menus")
 @EqualsAndHashCode(callSuper = true)
 @SQLRestriction("is_deleted = false")
-@SQLDelete(sql = "UPDATE menus SET is_deleted=1 WHERE id=?")
+@SQLDelete(sql = "UPDATE menus SET is_deleted=true WHERE id=?")
 public class Menu extends BaseEntity {
 
     private UUID parentId;

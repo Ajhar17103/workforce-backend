@@ -21,7 +21,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Table(name = "usr_roles")
 @EqualsAndHashCode(callSuper = true)
 @SQLRestriction("is_deleted = false")
-@SQLDelete(sql = "UPDATE users_roles SET is_deleted=1 WHERE id=?")
+@SQLDelete(sql = "UPDATE usr_roles SET is_deleted=true WHERE id=?")
 public class UserRole extends BaseEntity {
 
     @Column(nullable = false, unique = true)

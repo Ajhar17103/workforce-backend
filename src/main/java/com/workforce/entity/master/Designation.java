@@ -19,7 +19,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Table(name = "designations")
 @EqualsAndHashCode(callSuper = true)
 @SQLRestriction("is_deleted = false")
-@SQLDelete(sql = "UPDATE designations SET is_deleted=1 WHERE id=?")
+@SQLDelete(sql = "UPDATE designations SET is_deleted=true WHERE id=?")
 public class Designation extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
