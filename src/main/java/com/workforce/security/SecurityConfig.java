@@ -25,7 +25,6 @@ public class SecurityConfig {
 
     private static final String[] PUBLIC_URLS = {
             "/api/v1/auth/login",
-            "/api/v1/auth/register",
             "/api/v1/auth/refresh",
             "/v2/api-docs",
             "/v3/api-docs",
@@ -36,7 +35,9 @@ public class SecurityConfig {
             "/configuration/security",
             "/swagger-ui/**",
             "/webjars/**",
-            "/swagger-ui.html"
+            "/swagger-ui.html",
+//            "/master-data/api/v1/**",
+//            "/api/v1/**"
     };
     private final JwtFilter jwtFilter;
 
@@ -48,7 +49,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth.requestMatchers(PUBLIC_URLS)
                         .permitAll()
                         .requestMatchers("/api/v1/test/**").hasAnyAuthority("ADMIN")
-                        .requestMatchers("master-data/api/v1/role-menu-permissions/**").hasAnyAuthority("ADMIN")
                         .requestMatchers("/api/v1/test/**").hasAnyAuthority("USER", "ADMIN")
                         .anyRequest()
                         .authenticated())
@@ -62,7 +62,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://10.11.106.29:3000"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS","PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
 

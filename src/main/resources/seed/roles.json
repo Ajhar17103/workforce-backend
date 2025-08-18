@@ -1,4 +1,7 @@
 [
-  {"NAME":"SUPER_ADMIN", "DISPLAY_NAME": "Super Admin" },
-  {"NAME":"ADMIN", "DISPLAY_NAME": "Admin"}
+  { "id": "36de7de9-151b-427b-b0b2-ed8b8ab14a82", "name":"SUPER_ADMIN", "display_name": "Super Admin" },
+  { "id": "e5aaf026-7dfe-470a-8079-45a44718ec95", "name":"ADMIN", "display_name": "Admin" },
+  { "id": "4c172b7f-59e7-4b6f-9984-7679a2682276", "name":"MANAGER", "display_name": "Manager" },
+  { "id": "3028fbd0-6425-454d-ada5-1181d77d86fc", "name":"TEAM_LEAD", "display_name": "Team Lead" },
+  { "id": "a3cdf25d-b084-44cf-b710-bbcddc719259", "name":"ENGINEER", "display_name": "Engineer" }
 ]
