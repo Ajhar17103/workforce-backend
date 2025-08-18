@@ -48,4 +48,10 @@ public final class ApiPath {
         public static final String DEPARTMENT_IDENTIFIER = "/{id}";
     }
 
+    public static class Designation {
+        public static final String ROOT_PATH = "/master-data/api/v1/designations";
+        public static final String DESIGNATION_IDENTIFIER = "/{id}";
+        public static final String DESIGNATION_IDENTIFIER_DEPARTMENT_ID = "/by-department/{id}";
+    }
+
 }

@@ -12,7 +12,7 @@ import java.util.Objects;
 public enum TaskStatus {
     TO_DO(1, "TO_DO"),
     IN_PROGRESS(2, "IN_PROGRESS"),
-    COMPLETED(2, "COMPLETED"),
+    COMPLETED(3, "COMPLETED"),
     UNKNOWN(0, "UNKNOWN");
 
     private final Integer id;
