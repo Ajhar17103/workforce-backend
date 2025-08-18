@@ -33,7 +33,7 @@ public class DesignationController extends AbstractController implements Designa
         return generateResponse(
                 designationService.create(param),
                 HttpStatus.CREATED,
-                i18n("x0.has.been.saved.successfully", "role")
+                i18n("x0.has.been.saved.successfully", "designation")
         );
     }
 
@@ -42,7 +42,7 @@ public class DesignationController extends AbstractController implements Designa
         return generateResponse(
                 designationService.getById(id),
                 HttpStatus.OK,
-                i18n("x0.get.successfully", "role")
+                i18n("x0.get.successfully", "designation")
         );
     }
 
@@ -51,7 +51,7 @@ public class DesignationController extends AbstractController implements Designa
             return generateResponse(
                     designationService.getAll(),
                     HttpStatus.OK,
-                    i18n("x0.get.successfully", "roles")
+                    i18n("x0.get.successfully", "designations")
             );
     }
 
@@ -61,7 +61,7 @@ public class DesignationController extends AbstractController implements Designa
         return generateResponse(
                 designationService.update(param),
                 HttpStatus.OK,
-                i18n("x0.has.been.updated.successfully", "role")
+                i18n("x0.has.been.updated.successfully", "designation")
         );
     }
 
@@ -70,7 +70,7 @@ public class DesignationController extends AbstractController implements Designa
         return generateResponse(
                 designationService.statusUpdate(id),
                 HttpStatus.OK,
-                i18n("x0.status.has.been.updated.successfully", "role")
+                i18n("x0.status.has.been.updated.successfully", "designation")
         );
     }
 
@@ -79,7 +79,7 @@ public class DesignationController extends AbstractController implements Designa
         designationService.delete(id);
         return generateResponse(
                 HttpStatus.NO_CONTENT,
-                i18n("x0.has.been.deleted.successfully", "role")
+                i18n("x0.has.been.deleted.successfully", "designation")
         );
     }
 

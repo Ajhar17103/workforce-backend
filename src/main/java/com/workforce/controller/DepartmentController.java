@@ -34,7 +34,7 @@ public class DepartmentController extends AbstractController implements Departme
         return generateResponse(
                 departmentService.create(param),
                 HttpStatus.CREATED,
-                i18n("x0.has.been.saved.successfully", "role")
+                i18n("x0.has.been.saved.successfully", "department")
         );
     }
 
@@ -43,7 +43,7 @@ public class DepartmentController extends AbstractController implements Departme
         return generateResponse(
                 departmentService.getById(id),
                 HttpStatus.OK,
-                i18n("x0.get.successfully", "role")
+                i18n("x0.get.successfully", "department")
         );
     }
 
@@ -52,7 +52,7 @@ public class DepartmentController extends AbstractController implements Departme
             return generateResponse(
                     departmentService.getAll(),
                     HttpStatus.OK,
-                    i18n("x0.get.successfully", "roles")
+                    i18n("x0.get.successfully", "departments")
             );
     }
 
@@ -62,7 +62,7 @@ public class DepartmentController extends AbstractController implements Departme
         return generateResponse(
                 departmentService.update(param),
                 HttpStatus.OK,
-                i18n("x0.has.been.updated.successfully", "role")
+                i18n("x0.has.been.updated.successfully", "department")
         );
     }
 
@@ -71,7 +71,7 @@ public class DepartmentController extends AbstractController implements Departme
         return generateResponse(
                 departmentService.statusUpdate(id),
                 HttpStatus.OK,
-                i18n("x0.status.has.been.updated.successfully", "role")
+                i18n("x0.status.has.been.updated.successfully", "department")
         );
     }
 
@@ -80,7 +80,7 @@ public class DepartmentController extends AbstractController implements Departme
         departmentService.delete(id);
         return generateResponse(
                 HttpStatus.NO_CONTENT,
-                i18n("x0.has.been.deleted.successfully", "role")
+                i18n("x0.has.been.deleted.successfully", "department")
         );
     }
 }
