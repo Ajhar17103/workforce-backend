@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 @ToString(of = {"nonce","status","message"})
 @SuperBuilder(toBuilder = true)
 public abstract class BaseResponse {
+    private Boolean success;
     private Long nonce;
     private int status;
     private String message;

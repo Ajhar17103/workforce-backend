@@ -59,7 +59,7 @@ public class UserParam extends BaseParam {
     @Schema(example = "A_POSITIVE", description = "Blood Group of the user")
     private BloodGroup bloodGroup;
 
-    @NotNull(message = "x0.is.required")
+
     @Schema(description = "Profile Icon of the user")
     private String profileIcon;
 

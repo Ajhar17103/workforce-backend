@@ -2,14 +2,18 @@ package com.workforce.service.impl;
 
 
 import com.workforce.dto.master.UserDto;
+import com.workforce.entity.master.Designation;
+import com.workforce.entity.master.Role;
 import com.workforce.entity.master.User;
+import com.workforce.exception.DataAlreadyExistsException;
+import com.workforce.exception.DataNotFoundException;
 import com.workforce.mapper.UserMapper;
 import com.workforce.param.master.UserParam;
+import com.workforce.repository.DesignationRepository;
+import com.workforce.repository.RoleRepository;
 import com.workforce.repository.UserRepository;
 import com.workforce.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,62 +21,52 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final DesignationRepository designationRepository;
+    private final RoleRepository roleRepository;
     private final UserMapper userMapper;
 
     @Override
     @Transactional
     public UserDto create(UserParam param) throws Exception {
-        User entity = userMapper.toEntity(param);
-        entity = userRepository.save(entity);
-        return entityToDto(entity);
+        return entityToDto(createReturnEntity(param));
     }
 
     @Override
     public UserDto getById(UUID id) {
-        User entity = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-        return entityToDto(entity);
+        return entityToDto(getEntityById(id));
     }
 
-    @Override
-    public Page<UserDto> getAll(Pageable pageable) {
-        return userRepository.findAll(pageable).map(this::entityToDto);
+    private User getEntityById(UUID id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("User not found with id: " + id));
     }
+
 
     @Override
     public List<UserDto> getAll() {
-        List<User> role = userRepository.findAll();
-        return role.stream().map(this::entityToDto).collect(Collectors.toList());
+        return userRepository.findAll().stream().map(this::entityToDto).collect(Collectors.toList());
     }
 
     @Override
     @Transactional
     public UserDto update(UserParam param) throws Exception {
-        User existingUser = userRepository.findById(param.getId())
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + param.getId()));
-
-        userMapper.mergeUserInfo(existingUser, param);
-        User updatedMenu = userRepository.save(existingUser);
-        return entityToDto(updatedMenu);
+        return entityToDto(updateReturnEntity(param));
     }
 
     @Override
     @Transactional
     public UserDto statusUpdate(UUID id) throws Exception {
-        User entity = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        User entity = getEntityById(id);
         entity.setActive(!entity.getActive());
         entity = userRepository.save(entity);
         return entityToDto(entity);
@@ -81,8 +75,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void delete(UUID id) throws Exception {
-        User entity = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        User entity = getEntityById(id);
         userRepository.delete(entity);
     }
 
@@ -96,18 +89,89 @@ public class UserServiceImpl implements UserService {
         if (entity.getRole() != null) {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + entity.getRole().getName().toUpperCase()));
         }
+
         return new org.springframework.security.core.userdetails.User(
                 entity.getEmail(),
                 entity.getPassword(),
-                entity.getActive(), // enabled
-                true,               // accountNonExpired
-                true,               // credentialsNonExpired
-                true,               // accountNonLocked
+                entity.getActive(),
+                true,
+                true,
+                true,
                 authorities
         );
     }
 
+    private User createReturnEntity(UserParam param) throws Exception {
+        User entity = new User();
+
+
+        if (param.getDesignationId() != null) {
+            Designation designation = designationRepository.findById(param.getDesignationId())
+                    .orElseThrow(() -> new DataNotFoundException("Designation not found with id: " + param.getDesignationId()));
+            entity.setDesignation(designation);
+        }
+
+        if (param.getRoleId() != null) {
+            Role role = roleRepository.findById(param.getRoleId())
+                    .orElseThrow(() -> new DataNotFoundException("Role not found with id: " + param.getRoleId()));
+            entity.setRole(role);
+        }
+
+
+        if (param.getEmail() != null) {
+            userRepository.findByEmailIgnoreCase(param.getEmail()).ifPresent(u -> {
+                throw new DataAlreadyExistsException("Email already exists: " + param.getEmail());
+            });
+            entity.setEmail(param.getEmail());
+        }
+
+        if (param.getPhone() != null) {
+            userRepository.findByPhone(param.getPhone()).ifPresent(u -> {
+                throw new DataAlreadyExistsException("Phone already exists: " + param.getPhone());
+            });
+            entity.setPhone(param.getPhone());
+        }
+
+
+        entity = userMapper.paramToEntity(param, entity);
+
+        entity.setActive(true);
+        return userRepository.save(entity);
+    }
+
+    private User updateReturnEntity(UserParam param) throws Exception {
+        User entity = getEntityById(param.getId());
+
+        if (param.getDesignationId() != null) {
+            Designation designation = designationRepository.findById(param.getDesignationId())
+                    .orElseThrow(() -> new DataNotFoundException("Designation not found with id: " + param.getDesignationId()));
+            entity.setDesignation(designation);
+        }
+
+        if (param.getRoleId() != null) {
+            Role role = roleRepository.findById(param.getRoleId())
+                    .orElseThrow(() -> new DataNotFoundException("Role not found with id: " + param.getRoleId()));
+            entity.setRole(role);
+        }
+        if (param.getEmail() != null) {
+            userRepository.findByEmailIgnoreCase(param.getEmail()).ifPresent(u -> {
+                throw new DataAlreadyExistsException("Email already exists: " + param.getEmail());
+            });
+            entity.setEmail(param.getEmail());
+        }
+
+        if (param.getPhone() != null) {
+            userRepository.findByPhone(param.getPhone()).ifPresent(u -> {
+                throw new DataAlreadyExistsException("Phone already exists: " + param.getPhone());
+            });
+            entity.setPhone(param.getPhone());
+        }
+
+        entity = userMapper.paramToEntity(param, entity);
+        return userRepository.save(entity);
+    }
+
     private UserDto entityToDto(User entity) {
-        return userMapper.toDto(entity);
+        return userMapper.entityToDto(entity);
     }
 }

@@ -16,8 +16,6 @@ public interface UserService extends UserDetailsService {
 
     UserDto getById(UUID id);
 
-    Page<UserDto> getAll(Pageable pageable);
-
     List<UserDto> getAll();
 
     UserDto update(UserParam param) throws Exception;
