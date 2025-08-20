@@ -20,5 +20,5 @@ public class AuthDto {
 
     private String tokenType;
 
-    private UserDto userDto;
+    private UserDto user;
 }

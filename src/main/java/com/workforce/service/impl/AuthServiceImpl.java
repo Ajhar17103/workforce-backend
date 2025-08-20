@@ -1,7 +1,10 @@
 package com.workforce.service.impl;
 
 import com.workforce.dto.auth.AuthDto;
+import com.workforce.dto.master.UserDto;
 import com.workforce.entity.master.User;
+import com.workforce.exception.DataNotFoundException;
+import com.workforce.mapper.UserMapper;
 import com.workforce.param.auth.AuthParam;
 import com.workforce.param.auth.RefreshTokenParam;
 import com.workforce.repository.UserRepository;
@@ -31,8 +34,8 @@ import java.util.List;
 @Slf4j
 public class AuthServiceImpl implements AuthService {
 
-    private final UserRepository repository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
@@ -44,28 +47,26 @@ public class AuthServiceImpl implements AuthService {
                         request.getPassword()
                 )
         );
-
-        // Load user from DB
-        var user = repository.findByEmailIgnoreCase(request.getEmail())
+        var user = userRepository.findByEmailIgnoreCase(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Convert to UserDetails
-        UserDetails userDetails = mapToUserDetails(user);
+        var userDto=userMapper.entityToDto(user);
 
-        // Generate tokens
+        UserDetails userDetails = mapToUserDetails(user);
         var jwtToken = jwtService.generateToken(userDetails);
         var refreshToken = jwtService.generateRefreshToken(userDetails);
 
         return AuthDto.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .user(userDto)
                 .build();
     }
 
     @Override
     public AuthDto refreshToken(RefreshTokenParam req) {
-        var user = repository.findByEmailIgnoreCase(req.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        var user = userRepository.findByEmailIgnoreCase(req.getEmail())
+                .orElseThrow(() -> new DataNotFoundException("User not found"));
         UserDetails userDetails = mapToUserDetails(user);
 
         if (jwtService.isTokenValid(req.getRefreshToken(), userDetails)) {
@@ -88,7 +89,7 @@ public class AuthServiceImpl implements AuthService {
         final String userEmail = jwtService.extractUsername(refreshToken);
 
         if (userEmail != null) {
-            var user = repository.findByEmailIgnoreCase(userEmail)
+            var user = userRepository.findByEmailIgnoreCase(userEmail)
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
             UserDetails userDetails = mapToUserDetails(user);

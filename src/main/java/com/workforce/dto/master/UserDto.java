@@ -22,9 +22,17 @@ import java.util.UUID;
 public class UserDto extends BaseDto {
     private String name;
 
+    private UUID departmentId;
+
+    private String departmentName;
+
     private UUID designationId;
 
+    private String designationName;
+
     private UUID roleId;
+
+    private String roleName;
 
     private LocalDate dob;
 

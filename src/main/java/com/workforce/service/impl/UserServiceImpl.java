@@ -153,18 +153,12 @@ public class UserServiceImpl implements UserService {
                     .orElseThrow(() -> new DataNotFoundException("Role not found with id: " + param.getRoleId()));
             entity.setRole(role);
         }
+
         if (param.getEmail() != null) {
             userRepository.findByEmailIgnoreCase(param.getEmail()).ifPresent(u -> {
                 throw new DataAlreadyExistsException("Email already exists: " + param.getEmail());
             });
             entity.setEmail(param.getEmail());
-        }
-
-        if (param.getPhone() != null) {
-            userRepository.findByPhone(param.getPhone()).ifPresent(u -> {
-                throw new DataAlreadyExistsException("Phone already exists: " + param.getPhone());
-            });
-            entity.setPhone(param.getPhone());
         }
 
         entity = userMapper.paramToEntity(param, entity);
