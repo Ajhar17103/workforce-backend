@@ -59,4 +59,14 @@ public final class ApiPath {
         public static final String PROJECT_IDENTIFIER = IDENTIFIER_ID;
     }
 
+    public static class Sprint {
+        public static final String ROOT_PATH = MASTER_DATA + BASE_PATH + VERSION + SEPARATOR + "sprints";
+        public static final String SPRINT_IDENTIFIER = IDENTIFIER_ID;
+    }
+
+    public static class Task {
+        public static final String ROOT_PATH = MASTER_DATA + BASE_PATH + VERSION + SEPARATOR + "tasks";
+        public static final String TASK_IDENTIFIER = IDENTIFIER_ID;
+    }
+
 }
