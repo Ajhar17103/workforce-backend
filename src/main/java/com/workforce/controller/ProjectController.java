@@ -51,7 +51,7 @@ public class ProjectController extends AbstractController implements ProjectApi 
             return generateResponse(
                     projectService.getAll(),
                     HttpStatus.OK,
-                    i18n("x0.get.successfully", "users")
+                    i18n("x0.get.successfully", "projects")
             );
     }
 
