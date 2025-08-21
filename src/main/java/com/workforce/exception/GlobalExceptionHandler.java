@@ -24,7 +24,6 @@ public class GlobalExceptionHandler {
     // Generic exception
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponseDto<Object>> handleException(Exception ex) {
-        System.out.println("data already exists-5");
         ApiResponseDto<Object> response = ApiResponseDto.builder()
                 .success(false)
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
@@ -39,7 +38,6 @@ public class GlobalExceptionHandler {
     // Resource not found
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiResponseDto<Object>> handleResourceNotFound(ResourceNotFoundException ex) {
-        System.out.println("data already exists-4");
         ApiResponseDto<Object> response = ApiResponseDto.builder()
                 .success(false)
                 .status(HttpStatus.NOT_FOUND.value())
@@ -54,7 +52,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponseDto<Map<String, String>>> handleValidationExceptions(
             MethodArgumentNotValidException ex) {
-        System.out.println("data already exists-3");
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
@@ -78,7 +75,6 @@ public class GlobalExceptionHandler {
     // Data already exists exception
     @ExceptionHandler(DataAlreadyExistsException.class)
     public ResponseEntity<ApiResponseDto<Object>> handleDataAlreadyExists(DataAlreadyExistsException ex) {
-        System.out.println("data already exists:");
         ApiResponseDto<Object> response = ApiResponseDto.builder()
                 .success(false)
                 .status(HttpStatus.CONFLICT.value())

@@ -15,6 +15,8 @@ public final class ApiPath {
     public static final String IDENTIFIER_CODE = SEPARATOR + OPEN_PARENTHESIS + "code" + CLOSE_PARENTHESIS;
     public static final String IDENTIFIER_NAME = SEPARATOR + OPEN_PARENTHESIS + "name" + CLOSE_PARENTHESIS;
 
+    public static final String MASTER_DATA = SEPARATOR + "master-data";
+
     public static final class Auth {
         public static final String ROOT_PATH = BASE_PATH + VERSION + SEPARATOR + "auths";
         public static final String LOGIN = SEPARATOR + "login";
@@ -22,34 +24,39 @@ public final class ApiPath {
     }
 
     public static final class User {
-        public static final String ROOT_PATH = BASE_PATH + VERSION + SEPARATOR + "users";
+        public static final String ROOT_PATH = MASTER_DATA + BASE_PATH + VERSION + SEPARATOR + "users";
         public static final String USER_IDENTIFIER = IDENTIFIER_ID;
     }
 
     public static class Menu {
-        public static final String ROOT_PATH = "/master-data/api/v1/menus";
-        public static final String MENU_IDENTIFIER = "/{id}";
+        public static final String ROOT_PATH = MASTER_DATA + BASE_PATH + VERSION + SEPARATOR + "menus";
+        public static final String MENU_IDENTIFIER = IDENTIFIER_ID;
     }
 
     public static class UserRole {
-        public static final String ROOT_PATH = "/master-data/api/v1/roles";
-        public static final String USER_ROLE_IDENTIFIER = "/{id}";
+        public static final String ROOT_PATH = MASTER_DATA+ BASE_PATH + VERSION + SEPARATOR + "roles";
+        public static final String USER_ROLE_IDENTIFIER = IDENTIFIER_ID;
     }
 
     public static class RoleMenuPermission {
-        public static final String ROOT_PATH = "/master-data/api/v1/role-menu-permissions";
-        public static final String ROLE_MENU_PERMISSION_IDENTIFIER = "/{id}";
+        public static final String ROOT_PATH = MASTER_DATA + BASE_PATH + VERSION + SEPARATOR + "role-menu-permissions";
+        public static final String ROLE_MENU_PERMISSION_IDENTIFIER = IDENTIFIER_ID;
     }
 
     public static class Department {
-        public static final String ROOT_PATH = "/master-data/api/v1/departments";
-        public static final String DEPARTMENT_IDENTIFIER = "/{id}";
+        public static final String ROOT_PATH = MASTER_DATA + BASE_PATH + VERSION + SEPARATOR + "departments";
+        public static final String DEPARTMENT_IDENTIFIER = IDENTIFIER_ID;
     }
 
     public static class Designation {
-        public static final String ROOT_PATH = "/master-data/api/v1/designations";
-        public static final String DESIGNATION_IDENTIFIER = "/{id}";
-        public static final String DESIGNATION_IDENTIFIER_DEPARTMENT_ID = "/by-department/{id}";
+        public static final String ROOT_PATH = MASTER_DATA + BASE_PATH + VERSION + SEPARATOR + "designations";
+        public static final String DESIGNATION_IDENTIFIER = IDENTIFIER_ID;
+        public static final String DESIGNATION_IDENTIFIER_DEPARTMENT_ID = "/by-department" + IDENTIFIER_ID;
+    }
+
+    public static class Project {
+        public static final String ROOT_PATH = MASTER_DATA + BASE_PATH + VERSION + SEPARATOR + "projects";
+        public static final String PROJECT_IDENTIFIER = IDENTIFIER_ID;
     }
 
 }
