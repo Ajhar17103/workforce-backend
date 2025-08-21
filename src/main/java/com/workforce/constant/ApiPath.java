@@ -57,16 +57,19 @@ public final class ApiPath {
     public static class Project {
         public static final String ROOT_PATH = MASTER_DATA + BASE_PATH + VERSION + SEPARATOR + "projects";
         public static final String PROJECT_IDENTIFIER = IDENTIFIER_ID;
+        public static final String PROJECT_BY_USER_IDENTIFIER = "/assign-user"+ IDENTIFIER_ID;
     }
 
     public static class Sprint {
         public static final String ROOT_PATH = MASTER_DATA + BASE_PATH + VERSION + SEPARATOR + "sprints";
         public static final String SPRINT_IDENTIFIER = IDENTIFIER_ID;
+        public static final String SPRINT_BY_PROJECT_IDENTIFIER = "/by-project"+ IDENTIFIER_ID;
     }
 
     public static class Task {
         public static final String ROOT_PATH = MASTER_DATA + BASE_PATH + VERSION + SEPARATOR + "tasks";
         public static final String TASK_IDENTIFIER = IDENTIFIER_ID;
+        public static final String TASK_BY_SPRINT_IDENTIFIER = "/by-sprint"+ IDENTIFIER_ID;
     }
 
 }

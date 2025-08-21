@@ -5,6 +5,7 @@ import com.workforce.dto.master.SprintDto;
 import com.workforce.entity.master.Project;
 import com.workforce.entity.master.Sprint;
 import com.workforce.exception.DataNotFoundException;
+import com.workforce.mapper.ProjectMapper;
 import com.workforce.mapper.SprintMapper;
 import com.workforce.param.master.SprintParam;
 import com.workforce.repository.ProjectRepository;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -37,6 +39,17 @@ public class SprintServiceImpl implements SprintService {
     @Override
     public SprintDto getById(UUID id) {
         return entityToDto(getEntityById(id));
+    }
+
+    @Override
+    public List<SprintDto> getByProjectId(UUID id) {
+        projectRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Project not found with id: " + id));
+
+        return sprintRepository.findByProjectId(id)
+                .stream()
+                .map(this::entityToDto)
+                .collect(Collectors.toList());
     }
 
     private Sprint getEntityById(UUID id) {

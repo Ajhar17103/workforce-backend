@@ -8,6 +8,7 @@ import com.workforce.param.master.SprintParam;
 import com.workforce.service.SprintService;
 import com.workforce.support.ApiResponseDto;
 import com.workforce.support.DeleteResponseDto;
+import com.workforce.support.ListResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,15 @@ public class SprintController extends AbstractController implements SprintApi {
     public ResponseEntity<ApiResponseDto<SprintDto>> findById(UUID id) {
         return generateResponse(
                 sprintService.getById(id),
+                HttpStatus.OK,
+                i18n("x0.get.successfully", "user")
+        );
+    }
+
+    @Override
+    public ResponseEntity<ListResponseDto<SprintDto>> findByProjectId(UUID id) {
+        return generateResponse(
+                sprintService.getByProjectId(id),
                 HttpStatus.OK,
                 i18n("x0.get.successfully", "user")
         );

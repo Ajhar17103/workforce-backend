@@ -3,11 +3,13 @@ package com.workforce.controller;
 import com.workforce.common.AbstractController;
 import com.workforce.controller.api.ProjectApi;
 import com.workforce.dto.master.ProjectDto;
+import com.workforce.dto.master.UserDto;
 import com.workforce.param.PageableParam;
 import com.workforce.param.master.ProjectParam;
 import com.workforce.service.ProjectService;
 import com.workforce.support.ApiResponseDto;
 import com.workforce.support.DeleteResponseDto;
+import com.workforce.support.ListResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,6 +45,15 @@ public class ProjectController extends AbstractController implements ProjectApi 
                 projectService.getById(id),
                 HttpStatus.OK,
                 i18n("x0.get.successfully", "project")
+        );
+    }
+
+    @Override
+    public ResponseEntity<ListResponseDto<UserDto>>findAllUserByProjectId(UUID id) {
+        return generateResponse(
+                projectService.getAllUserByProjectId(id),
+                HttpStatus.OK,
+                i18n("x0.get.successfully", "projects")
         );
     }
 

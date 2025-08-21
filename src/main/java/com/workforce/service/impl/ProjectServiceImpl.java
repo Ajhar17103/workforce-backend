@@ -6,6 +6,7 @@ import com.workforce.entity.master.Project;
 import com.workforce.entity.master.User;
 import com.workforce.exception.DataNotFoundException;
 import com.workforce.mapper.ProjectMapper;
+import com.workforce.mapper.UserMapper;
 import com.workforce.param.master.ProjectParam;
 import com.workforce.repository.ProjectRepository;
 import com.workforce.repository.UserRepository;
@@ -26,6 +27,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
     private final ProjectMapper projectMapper;
 
     @Override
@@ -42,6 +44,15 @@ public class ProjectServiceImpl implements ProjectService {
     private Project getEntityById(UUID id) {
         return projectRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Project not found with id: " + id));
+    }
+
+    @Override
+    public List<UserDto> getAllUserByProjectId(UUID id) {
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Project not found with id: " + id));
+        return project.getAssignUser().stream()
+                .map(userMapper::entityToDto)
+                .collect(Collectors.toList());
     }
 
     @Override

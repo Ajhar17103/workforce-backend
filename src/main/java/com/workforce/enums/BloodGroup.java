@@ -60,5 +60,4 @@ public enum BloodGroup {
             return Objects.nonNull(id) ? BloodGroup.getById(id) : UNKNOWN;
         }
     }
-
 }

@@ -1,6 +1,7 @@
 package com.workforce.service;
 
 import com.workforce.dto.master.ProjectDto;
+import com.workforce.dto.master.UserDto;
 import com.workforce.param.master.ProjectParam;
 
 import java.util.List;
@@ -11,6 +12,8 @@ public interface ProjectService {
     ProjectDto create(ProjectParam param) throws Exception;
 
     ProjectDto getById(UUID id);
+
+    List<UserDto> getAllUserByProjectId(UUID id);
 
     List<ProjectDto> getAll();
 

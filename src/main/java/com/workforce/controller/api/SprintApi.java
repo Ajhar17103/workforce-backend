@@ -9,6 +9,7 @@ import com.workforce.param.PageableParam;
 import com.workforce.param.master.SprintParam;
 import com.workforce.support.ApiResponseDto;
 import com.workforce.support.DeleteResponseDto;
+import com.workforce.support.ListResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -47,6 +49,17 @@ public interface SprintApi extends GetApi<SprintDto>, GetAllApi<Sprint>, CreateA
     @GetMapping(value = ApiPath.Sprint.SPRINT_IDENTIFIER)
     @Override
     default ResponseEntity<ApiResponseDto<SprintDto>> findById(@PathVariable UUID id) {
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Operation(summary = "Find menu by ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Sprint found",
+                    content = {@Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404", description = "Sprint not found", content = @Content(schema = @Schema(implementation = SprintDto.class)))
+    })
+    @GetMapping(value = ApiPath.Sprint.SPRINT_BY_PROJECT_IDENTIFIER)
+    default ResponseEntity<ListResponseDto<SprintDto>> findByProjectId(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

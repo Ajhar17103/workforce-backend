@@ -4,11 +4,14 @@ package com.workforce.controller.api;
 import com.workforce.common.api.*;
 import com.workforce.constant.ApiPath;
 import com.workforce.dto.master.ProjectDto;
+import com.workforce.dto.master.SprintDto;
+import com.workforce.dto.master.UserDto;
 import com.workforce.entity.master.Project;
 import com.workforce.param.PageableParam;
 import com.workforce.param.master.ProjectParam;
 import com.workforce.support.ApiResponseDto;
 import com.workforce.support.DeleteResponseDto;
+import com.workforce.support.ListResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -47,6 +50,17 @@ public interface ProjectApi extends GetApi<ProjectDto>, GetAllApi<Project>, Crea
     @GetMapping(value = ApiPath.Project.PROJECT_IDENTIFIER)
     @Override
     default ResponseEntity<ApiResponseDto<ProjectDto>> findById(@PathVariable UUID id) {
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Operation(summary = "Find menu by ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Sprint found",
+                    content = {@Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404", description = "Sprint not found", content = @Content(schema = @Schema(implementation = SprintDto.class)))
+    })
+    @GetMapping(value = ApiPath.Project.PROJECT_BY_USER_IDENTIFIER)
+    default ResponseEntity<ListResponseDto<UserDto>> findAllUserByProjectId(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

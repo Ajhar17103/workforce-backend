@@ -13,6 +13,8 @@ public interface SprintService {
 
     SprintDto getById(UUID id);
 
+    List<SprintDto> getByProjectId(UUID id);
+
     List<SprintDto> getAll();
 
     SprintDto update(SprintParam param) throws Exception;
