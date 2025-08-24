@@ -3,8 +3,6 @@ package com.workforce.service;
 
 import com.workforce.dto.master.UserDto;
 import com.workforce.param.master.UserParam;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;

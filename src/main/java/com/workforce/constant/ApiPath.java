@@ -70,6 +70,7 @@ public final class ApiPath {
         public static final String ROOT_PATH = MASTER_DATA + BASE_PATH + VERSION + SEPARATOR + "tasks";
         public static final String TASK_IDENTIFIER = IDENTIFIER_ID;
         public static final String TASK_BY_SPRINT_IDENTIFIER = "/by-sprint"+ IDENTIFIER_ID;
+        public static final String TASK_BY_USER_IDENTIFIER = "/by-user"+ IDENTIFIER_ID;
     }
 
 }
