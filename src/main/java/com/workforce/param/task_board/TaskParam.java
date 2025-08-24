@@ -1,7 +1,8 @@
-package com.workforce.param.master;
+package com.workforce.param.task_board;
 
 
 import com.workforce.enums.Priority;
+import com.workforce.enums.TaskStatus;
 import com.workforce.enums.TaskTracker;
 import com.workforce.enums.TaskType;
 import com.workforce.param.BaseParam;
@@ -11,7 +12,6 @@ import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.UUID;
 
 @Data
@@ -24,11 +24,11 @@ public class TaskParam extends BaseParam {
     @Schema(hidden = true)
     private UUID id;
 
-    @NotNull(message = "projectId.is.required")
+    @NotNull(message = "x0.is.required")
     @Schema(example = "d290f1ee-6c54-4b01-90e6-d701748f0851", description = "Project Id associated with the task")
     private UUID projectId;
 
-    @NotNull(message = "sprintId.is.required")
+    @NotNull(message = "x0.is.required")
     @Schema(example = "f290f1ee-6c54-4b01-90e6-d701748f0851", description = "Sprint Id associated with the task")
     private UUID sprintId;
 
@@ -36,7 +36,7 @@ public class TaskParam extends BaseParam {
     @Schema(example = "u290f1ee-6c54-4b01-90e6-d701748f0851", description = "User Id assigned to the task")
     private UUID userId;
 
-    @NotNull(message = "name.is.required")
+    @NotNull(message = "x0.is.required")
     @Schema(example = "Implement Login API", description = "Name of the task")
     private String name;
 
@@ -44,15 +44,15 @@ public class TaskParam extends BaseParam {
     @Schema(example = "Create REST API for user login with JWT", description = "Detailed description of the task")
     private String description;
 
-    @NotNull(message = "taskTracker.is.required")
+    @NotNull(message = "x0.is.required")
     @Schema(example = "SPRINT", description = "Current tracker status of the task")
     private TaskTracker taskTracker;
 
-    @NotNull(message = "priority.is.required")
+    @NotNull(message = "x0.is.required")
     @Schema(example = "HIGH", description = "Priority of the task")
     private Priority priority;
 
-    @NotNull(message = "taskType.is.required")
+    @NotNull(message = "x0.is.required")
     @Schema(example = "PLANNED", description = "Type of task")
     private TaskType taskType;
 
@@ -64,5 +64,15 @@ public class TaskParam extends BaseParam {
 
     @Schema(type = "string", format = "binary", description = "Optional file attachment for the task")
     private MultipartFile file;
+
+    @NotNull(message = "x0.is.required")
+    @Schema(example = "To_DO", description = "Task Status of the task")
+    private TaskStatus taskStatus;
+
+    @Schema(example = "Need more clarity on requirements", description = "Challenges faced while working on the task",hidden = true)
+    private String challenges;
+
+    @Schema(example = "Task completed successfully within deadline", description = "Additional remarks or notes about the task",hidden = true)
+    private String remarks;
 }
 

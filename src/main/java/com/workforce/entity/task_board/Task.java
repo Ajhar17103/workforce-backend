@@ -1,7 +1,11 @@
-package com.workforce.entity.master;
+package com.workforce.entity.task_board;
 
 import com.workforce.entity.BaseEntity;
+import com.workforce.entity.master.Project;
+import com.workforce.entity.master.Sprint;
+import com.workforce.entity.master.User;
 import com.workforce.enums.Priority;
+import com.workforce.enums.TaskStatus;
 import com.workforce.enums.TaskTracker;
 import com.workforce.enums.TaskType;
 import jakarta.persistence.*;
@@ -10,9 +14,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
-import java.io.File;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 
 @Data
@@ -62,5 +64,12 @@ public class Task extends BaseEntity {
 
     @Lob
     @Column(columnDefinition = "TEXT")
-    private File file;
+    private String file;
+
+    @Convert(converter = TaskStatus.TaskStatusConverter.class)
+    private TaskStatus taskStatus = TaskStatus.UNKNOWN;
+
+    private String challenges;
+
+    private String remarks;
 }

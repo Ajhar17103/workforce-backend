@@ -1,12 +1,12 @@
-package com.workforce.dto.master;
+package com.workforce.dto.task_board;
 
 
 import com.workforce.dto.BaseDto;
+import com.workforce.enums.TaskStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.UUID;
 
 
@@ -50,6 +50,12 @@ public class TaskDto extends BaseDto {
     private String fileName;
 
     private String fileUrl;
+
+    private TaskStatus taskStatus;
+
+    private String challenges;
+
+    private String remarks;
 }
 
 

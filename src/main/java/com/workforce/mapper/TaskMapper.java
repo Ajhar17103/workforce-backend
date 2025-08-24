@@ -1,16 +1,10 @@
 package com.workforce.mapper;
 
-import com.workforce.dto.master.TaskDto;
-import com.workforce.dto.master.UserDto;
-import com.workforce.entity.master.Task;
-import com.workforce.entity.master.User;
-import com.workforce.param.master.TaskParam;
-import com.workforce.param.master.UserParam;
+import com.workforce.dto.task_board.TaskDto;
+import com.workforce.entity.task_board.Task;
+import com.workforce.param.task_board.TaskParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.io.File;
 
 @Component
 @RequiredArgsConstructor
@@ -27,16 +21,20 @@ public class TaskMapper {
         if (param.getTaskType() != null) entity.setTaskType(param.getTaskType());
         if (param.getStartDate() != null) entity.setStartDate(param.getStartDate());
         if (param.getEstimatedTime() != null) entity.setEstimatedTime(param.getEstimatedTime());
+        if (param.getTaskStatus() != null) entity.setTaskStatus(param.getTaskStatus());
+        if (param.getChallenges() != null) entity.setChallenges(param.getChallenges());
+        if (param.getRemarks() != null) entity.setRemarks(param.getRemarks());
 
-        if (param.getFile() != null) {
-            try {
-                File file = new File(System.getProperty("java.io.tmpdir"), param.getFile().getOriginalFilename());
-                param.getFile().transferTo(file);
-                entity.setFile(file);
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to store file", e);
-            }
-        }
+//        if (param.getFile() != null) {
+//            try {
+//                MultipartFile file = new MultipartFile(System.getProperty("java.io.tmpdir"), param.getFile().getOriginalFilename()) {
+//                };
+//                param.getFile().transferTo(file);
+//                entity.setFile(file);
+//            } catch (Exception e) {
+//                throw new RuntimeException("Failed to store file", e);
+//            }
+//        }
 
         return entity;
     }
@@ -63,11 +61,13 @@ public class TaskMapper {
 
         dto.setStartDate(entity.getStartDate());
         dto.setEstimatedTime(entity.getEstimatedTime());
-
-        if (entity.getFile() != null) {
-            dto.setFileName(entity.getFile().getName());
-            dto.setFileUrl("/api/tasks/files/" + entity.getFile().getName());
-        }
+        dto.setTaskStatus(entity.getTaskStatus());
+        dto.setChallenges(entity.getChallenges());
+        dto.setRemarks(entity.getRemarks());
+//        if (entity.getFile() != null) {
+//            dto.setFileName(entity.getFile().getName());
+//            dto.setFileUrl("/api/tasks/files/" + entity.getFile().getName());
+//        }
 
         return dto;
     }

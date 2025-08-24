@@ -16,6 +16,7 @@ public final class ApiPath {
     public static final String IDENTIFIER_NAME = SEPARATOR + OPEN_PARENTHESIS + "name" + CLOSE_PARENTHESIS;
 
     public static final String MASTER_DATA = SEPARATOR + "master-data";
+    public static final String TASK_BOARD = SEPARATOR + "task-board";
 
     public static final class Auth {
         public static final String ROOT_PATH = BASE_PATH + VERSION + SEPARATOR + "auths";
@@ -67,7 +68,7 @@ public final class ApiPath {
     }
 
     public static class Task {
-        public static final String ROOT_PATH = MASTER_DATA + BASE_PATH + VERSION + SEPARATOR + "tasks";
+        public static final String ROOT_PATH =TASK_BOARD+ BASE_PATH + VERSION + SEPARATOR + "tasks";
         public static final String TASK_IDENTIFIER = IDENTIFIER_ID;
         public static final String TASK_BY_SPRINT_IDENTIFIER = "/by-sprint"+ IDENTIFIER_ID;
         public static final String TASK_BY_USER_IDENTIFIER = "/by-user"+ IDENTIFIER_ID;

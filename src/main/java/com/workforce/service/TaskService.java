@@ -1,11 +1,8 @@
 package com.workforce.service;
 
 
-import com.workforce.dto.master.TaskDto;
-import com.workforce.dto.master.UserDto;
-import com.workforce.param.master.TaskParam;
-import com.workforce.param.master.UserParam;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import com.workforce.dto.task_board.TaskDto;
+import com.workforce.param.task_board.TaskParam;
 
 import java.util.List;
 import java.util.UUID;

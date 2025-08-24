@@ -2,11 +2,11 @@ package com.workforce.service.impl;
 
 import com.workforce.entity.master.Project;
 import com.workforce.entity.master.Sprint;
-import com.workforce.entity.master.Task;
-import com.workforce.dto.master.TaskDto;
+import com.workforce.entity.task_board.Task;
+import com.workforce.dto.task_board.TaskDto;
 import com.workforce.entity.master.User;
 import com.workforce.exception.DataNotFoundException;
-import com.workforce.param.master.TaskParam;
+import com.workforce.param.task_board.TaskParam;
 import com.workforce.repository.ProjectRepository;
 import com.workforce.repository.SprintRepository;
 import com.workforce.repository.TaskRepository;

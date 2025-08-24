@@ -2,10 +2,10 @@ package com.workforce.controller.api;
 
 import com.workforce.common.api.*;
 import com.workforce.constant.ApiPath;
-import com.workforce.dto.master.TaskDto;
-import com.workforce.entity.master.Task;
+import com.workforce.dto.task_board.TaskDto;
+import com.workforce.entity.task_board.Task;
 import com.workforce.param.PageableParam;
-import com.workforce.param.master.TaskParam;
+import com.workforce.param.task_board.TaskParam;
 import com.workforce.support.ApiResponseDto;
 import com.workforce.support.DeleteResponseDto;
 import com.workforce.support.ListResponseDto;
@@ -63,7 +63,7 @@ public interface TaskApi extends
             @ApiResponse(responseCode = "404", description = "No tasks found", content = @Content(schema = @Schema(implementation = TaskDto.class)))
     })
     @GetMapping(value = ApiPath.Task.TASK_BY_USER_IDENTIFIER)
-    default ResponseEntity<ListResponseDto<TaskDto>> findAllByUserId(@PathVariable UUID userId) {
+    default ResponseEntity<ListResponseDto<TaskDto>> findAllByUserId(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

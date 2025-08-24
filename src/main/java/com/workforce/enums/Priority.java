@@ -10,11 +10,11 @@ import java.util.Objects;
 
 @Getter
 public enum Priority {
-    LOW(1, "Low"),
-    NORMAL(2, "Normal"),
-    HIGH(3, "High"),
-    URGENT(4, "Urgent"),
-    IMMEDIATE(5, "Immediate"),
+    LOW(1, "LOW"),
+    NORMAL(2, "NORMAL"),
+    HIGH(3, "HIGH"),
+    URGENT(4, "URGENT"),
+    IMMEDIATE(5, "IMMEDIATE"),
     UNKNOWN(0, "Unknown");
 
     private final Integer id;

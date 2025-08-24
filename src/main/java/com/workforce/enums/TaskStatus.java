@@ -11,8 +11,9 @@ import java.util.Objects;
 @NoArgsConstructor(force = true)
 public enum TaskStatus {
     TO_DO(1, "TO_DO"),
-    IN_PROGRESS(2, "IN_PROGRESS"),
-    COMPLETED(3, "COMPLETED"),
+    HOLD(2, "HOLD"),
+    IN_PROGRESS(3, "IN_PROGRESS"),
+    COMPLETED(4, "COMPLETED"),
     UNKNOWN(0, "UNKNOWN");
 
     private final Integer id;
@@ -47,7 +48,7 @@ public enum TaskStatus {
     }
 
     @Converter
-    public static class TaskTypeConverter implements AttributeConverter<TaskStatus, Integer> {
+    public static class TaskStatusConverter implements AttributeConverter<TaskStatus, Integer> {
         @Override
         public Integer convertToDatabaseColumn(TaskStatus taskStatus) {
             return Objects.nonNull(taskStatus) ? taskStatus.getId() : UNKNOWN.id;

@@ -2,9 +2,9 @@ package com.workforce.controller;
 
 import com.workforce.common.AbstractController;
 import com.workforce.controller.api.TaskApi;
-import com.workforce.dto.master.TaskDto;
+import com.workforce.dto.task_board.TaskDto;
 import com.workforce.param.PageableParam;
-import com.workforce.param.master.TaskParam;
+import com.workforce.param.task_board.TaskParam;
 import com.workforce.service.TaskService;
 import com.workforce.support.ApiResponseDto;
 import com.workforce.support.DeleteResponseDto;
@@ -47,9 +47,9 @@ public class TaskController extends AbstractController implements TaskApi {
     }
 
     @Override
-    public ResponseEntity<ListResponseDto<TaskDto>> findAllByUserId(UUID userId) {
+    public ResponseEntity<ListResponseDto<TaskDto>> findAllByUserId(UUID id) {
         return generateResponse(
-                taskService.getTasksByUserId(userId),
+                taskService.getTasksByUserId(id),
                 HttpStatus.OK,
                 i18n("x0.get.successfully", "tasks")
         );
