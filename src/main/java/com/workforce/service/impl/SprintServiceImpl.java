@@ -5,7 +5,6 @@ import com.workforce.dto.master.SprintDto;
 import com.workforce.entity.master.Project;
 import com.workforce.entity.master.Sprint;
 import com.workforce.exception.DataNotFoundException;
-import com.workforce.mapper.ProjectMapper;
 import com.workforce.mapper.SprintMapper;
 import com.workforce.param.master.SprintParam;
 import com.workforce.repository.ProjectRepository;
@@ -14,8 +13,6 @@ import com.workforce.service.SprintService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;

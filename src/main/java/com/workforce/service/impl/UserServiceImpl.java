@@ -1,6 +1,5 @@
 package com.workforce.service.impl;
 
-
 import com.workforce.dto.master.UserDto;
 import com.workforce.entity.master.Designation;
 import com.workforce.entity.master.Role;
@@ -24,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -37,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDto create(UserParam param) throws Exception {
+    public UserDto create(UserParam param) {
         return entityToDto(createReturnEntity(param));
     }
 
@@ -46,26 +44,23 @@ public class UserServiceImpl implements UserService {
         return entityToDto(getEntityById(id));
     }
 
-    private User getEntityById(UUID id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new DataNotFoundException("User not found with id: " + id));
-    }
-
-
     @Override
     public List<UserDto> getAll() {
-        return userRepository.findAll().stream().map(this::entityToDto).collect(Collectors.toList());
+        return userRepository.findAll()
+                .stream()
+                .map(this::entityToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public UserDto update(UserParam param) throws Exception {
+    public UserDto update(UserParam param) {
         return entityToDto(updateReturnEntity(param));
     }
 
     @Override
     @Transactional
-    public UserDto statusUpdate(UUID id) throws Exception {
+    public UserDto statusUpdate(UUID id) {
         User entity = getEntityById(id);
         entity.setActive(!entity.getActive());
         entity = userRepository.save(entity);
@@ -74,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void delete(UUID id) throws Exception {
+    public void delete(UUID id) {
         User entity = getEntityById(id);
         userRepository.delete(entity);
     }
@@ -101,47 +96,51 @@ public class UserServiceImpl implements UserService {
         );
     }
 
-    private User createReturnEntity(UserParam param) throws Exception {
+    private User getEntityById(UUID id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("User not found with id: " + id));
+    }
+
+    private User createReturnEntity(UserParam param) {
         User entity = new User();
+        entity = paramToEntity(param, entity, true);
+        entity.setActive(true);
+        return userRepository.save(entity);
+    }
 
+    private User updateReturnEntity(UserParam param) {
+        User entity = getEntityById(param.getId());
+        entity = paramToEntity(param, entity, false);
+        return userRepository.save(entity);
+    }
 
-        if (param.getDesignationId() != null) {
-            Designation designation = designationRepository.findById(param.getDesignationId())
-                    .orElseThrow(() -> new DataNotFoundException("Designation not found with id: " + param.getDesignationId()));
-            entity.setDesignation(designation);
-        }
+    private UserDto entityToDto(User entity) {
+        return userMapper.entityToDto(entity);
+    }
 
-        if (param.getRoleId() != null) {
-            Role role = roleRepository.findById(param.getRoleId())
-                    .orElseThrow(() -> new DataNotFoundException("Role not found with id: " + param.getRoleId()));
-            entity.setRole(role);
-        }
-
-
+    private User paramToEntity(UserParam param, User entity, boolean isCreate) {
+        // Check unique email
         if (param.getEmail() != null) {
             userRepository.findByEmailIgnoreCase(param.getEmail()).ifPresent(u -> {
-                throw new DataAlreadyExistsException("Email already exists: " + param.getEmail());
+                if (isCreate || !u.getId().equals(param.getId())) {
+                    throw new DataAlreadyExistsException("Email already exists: " + param.getEmail());
+                }
             });
             entity.setEmail(param.getEmail());
         }
 
-        if (param.getPhone() != null) {
+        // Check unique phone
+        if (isCreate && param.getPhone() != null) {
             userRepository.findByPhone(param.getPhone()).ifPresent(u -> {
                 throw new DataAlreadyExistsException("Phone already exists: " + param.getPhone());
             });
             entity.setPhone(param.getPhone());
         }
 
-
+        // Map basic fields
         entity = userMapper.paramToEntity(param, entity);
 
-        entity.setActive(true);
-        return userRepository.save(entity);
-    }
-
-    private User updateReturnEntity(UserParam param) throws Exception {
-        User entity = getEntityById(param.getId());
-
+        // Set relations
         if (param.getDesignationId() != null) {
             Designation designation = designationRepository.findById(param.getDesignationId())
                     .orElseThrow(() -> new DataNotFoundException("Designation not found with id: " + param.getDesignationId()));
@@ -154,18 +153,6 @@ public class UserServiceImpl implements UserService {
             entity.setRole(role);
         }
 
-        if (param.getEmail() != null) {
-            userRepository.findByEmailIgnoreCase(param.getEmail()).ifPresent(u -> {
-                throw new DataAlreadyExistsException("Email already exists: " + param.getEmail());
-            });
-            entity.setEmail(param.getEmail());
-        }
-
-        entity = userMapper.paramToEntity(param, entity);
-        return userRepository.save(entity);
-    }
-
-    private UserDto entityToDto(User entity) {
-        return userMapper.entityToDto(entity);
+        return entity;
     }
 }

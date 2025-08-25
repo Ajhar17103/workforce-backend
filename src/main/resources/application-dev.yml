@@ -1,12 +1,18 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/jwt
+    url: jdbc:postgresql://localhost:5432/workforce
     username: root
     password: Admin@123
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
 server:
   port: 12001
   servlet:
@@ -14,9 +20,6 @@ server:
       charset: UTF-8
       enabled: true
 
-
-
-# these properties need to be well organized across the different ENV
 application:
   security:
     jwt:
@@ -24,6 +27,3 @@ application:
       expiration: 86400000 # a day
       refresh-token:
         expiration: 604800000 # 7 days
-    disposable-email: 10minutemail,20minutemail,33mail,5ymail,anonbox,guerrillamail,mailinator,maildrop,mailnesia,moakt,my10minutemail,throwawaymail,trashmail,temp-mail,tempmail,truemail,yopmail
-
-

@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -35,7 +33,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public TaskDto create(TaskParam param) throws Exception {
+    public TaskDto create(TaskParam param) {
         return entityToDto(createReturnEntity(param));
     }
 
@@ -54,22 +52,22 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public TaskDto update(TaskParam param) throws Exception {
+    public TaskDto update(TaskParam param) {
         return entityToDto(updateReturnEntity(param));
     }
 
     @Override
     @Transactional
-    public TaskDto statusUpdate(UUID id) throws Exception {
+    public TaskDto statusUpdate(UUID id) {
         Task entity = getEntityById(id);
-        entity.setActive(!entity.getActive()); // ✅ toggle active status (like UserServiceImpl)
+        entity.setActive(!entity.getActive());
         entity = taskRepository.save(entity);
         return entityToDto(entity);
     }
 
     @Override
     @Transactional
-    public void delete(UUID id) throws Exception {
+    public void delete(UUID id) {
         Task entity = getEntityById(id);
         taskRepository.delete(entity);
     }
@@ -87,34 +85,29 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(() -> new DataNotFoundException("Task not found with id: " + id));
     }
 
-    private Task createReturnEntity(TaskParam param) throws Exception {
+    private Task createReturnEntity(TaskParam param) {
         Task entity = new Task();
-        if (param.getProjectId() != null) {
-            Project project = projectRepository.findById(param.getProjectId())
-                    .orElseThrow(() -> new DataNotFoundException("Project not found with id: " + param.getProjectId()));
-            entity.setProject(project);
-        }
-
-        if (param.getSprintId() != null) {
-            Sprint sprint = sprintRepository.findById(param.getSprintId())
-                    .orElseThrow(() -> new DataNotFoundException("Project not found with id: " + param.getSprintId()));
-            entity.setSprint(sprint);
-        }
-
-        if (param.getUserId() != null) {
-            User user = userRepository.findById(param.getUserId())
-                    .orElseThrow(() -> new DataNotFoundException("Project not found with id: " + param.getUserId()));
-            entity.setUser(user);
-        }
-
-
-        entity = taskMapper.paramToEntity(param, entity);
+        entity = paramToEntity(param, entity);
         entity.setActive(true);
         return taskRepository.save(entity);
     }
 
-    private Task updateReturnEntity(TaskParam param) throws Exception {
+    private Task updateReturnEntity(TaskParam param) {
         Task entity = getEntityById(param.getId());
+        entity = paramToEntity(param, entity);
+        return taskRepository.save(entity);
+    }
+
+
+
+    private TaskDto entityToDto(Task entity) {
+        return taskMapper.entityToDto(entity);
+    }
+
+    private Task paramToEntity(TaskParam param, Task entity) {
+
+        entity = taskMapper.paramToEntity(param, entity);
+
         if (param.getProjectId() != null) {
             Project project = projectRepository.findById(param.getProjectId())
                     .orElseThrow(() -> new DataNotFoundException("Project not found with id: " + param.getProjectId()));
@@ -133,12 +126,6 @@ public class TaskServiceImpl implements TaskService {
             entity.setUser(user);
         }
 
-        entity = taskMapper.paramToEntity(param, entity);
-        return taskRepository.save(entity);
-    }
-
-    private TaskDto entityToDto(Task entity) {
-        return taskMapper.entityToDto(entity);
+        return entity;
     }
 }
-

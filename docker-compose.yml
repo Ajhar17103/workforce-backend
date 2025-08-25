@@ -1,21 +1,35 @@
 version: '3.8'
 
 services:
-  mysql:
-    image: mysql:8
-    container_name: mysql-container
+  postgres:
+    image: postgres:15
+    container_name: postgres-container
     environment:
-      MYSQL_ROOT_PASSWORD: Admin@123
-      MYSQL_DATABASE: jwt
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: Admin@123
+      POSTGRES_DB: workforce
     ports:
-      - "3306:3306"
+      - "5432:5432"
     networks:
-      - jwt-network
+      - workforce-network
     volumes:
-      - mysql-data:/var/lib/mysql
+      - postgres-data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin-container
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@workforce.com
+      PGADMIN_DEFAULT_PASSWORD: Admin@123
+    ports:
+      - "5050:80"
+    networks:
+      - workforce-network
+    depends_on:
+      - postgres
 
 networks:
-  jwt-network:
+  workforce-network:
 
 volumes:
-  mysql-data:
+  postgres-data:
