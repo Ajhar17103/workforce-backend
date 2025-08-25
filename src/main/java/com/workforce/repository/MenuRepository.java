@@ -12,11 +12,8 @@ import java.util.UUID;
 
 public interface MenuRepository extends JpaRepository<Menu, UUID>, JpaSpecificationExecutor<Menu> {
 
-    Optional<Menu> findByNameIgnoreCase(String name);
+    @Query("SELECT m FROM Menu m ORDER BY m.createdAt ASC")
+    List<Menu> findAllBy();
 
-    boolean existsByNameIgnoreCase(String name);
-
-    @Query("SELECT m FROM Menu m ORDER BY m.id DESC")
-    List<Menu> findAllMenusDesc();
 }
 

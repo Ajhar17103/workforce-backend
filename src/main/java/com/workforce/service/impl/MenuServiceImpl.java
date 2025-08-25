@@ -41,7 +41,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuDto> getAll() {
-        List<Menu> menus = menuRepository.findAll();
+        List<Menu> menus = menuRepository.findAllBy();
         return menus.stream().map(this::entityToDto).collect(Collectors.toList());
     }
 
