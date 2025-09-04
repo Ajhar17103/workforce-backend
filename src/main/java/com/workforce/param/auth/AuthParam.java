@@ -14,9 +14,9 @@ import lombok.*;
 public class AuthParam {
     @NotBlank(message = "VALIDATION.AUTHENTICATION.EMAIL.NOT_BLANK")
     @Email(message = "VALIDATION.AUTHENTICATION.EMAIL.FORMAT")
-    @Schema(example = "admin@gmail.com")
+    @Schema(example = "super@gmail.com")
     String email;
     @NotBlank(message = "VALIDATION.AUTHENTICATION.PASSWORD.NOT_BLANK")
-    @Schema(example = "11223344")
+    @Schema(example = "12345678")
     String password;
 }
