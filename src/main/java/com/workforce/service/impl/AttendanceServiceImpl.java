@@ -2,7 +2,6 @@ package com.workforce.service.impl;
 
 import com.workforce.dto.attendance.AttendanceDto;
 import com.workforce.entity.attendance.Attendance;
-import com.workforce.entity.attendance.AttendanceEvent;
 import com.workforce.entity.master.User;
 import com.workforce.enums.AttendanceType;
 import com.workforce.exception.DataAlreadyExistsException;
@@ -133,7 +132,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                     }
                 }
             }
-
+            entity.setStaySeconds(param.getStaySeconds());
             entity.setWorkDate(param.getWorkDate());
 
         }
