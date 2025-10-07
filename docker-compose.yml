@@ -3,24 +3,24 @@ version: '3.8'
 services:
   postgres:
     image: postgres:15
-    container_name: postgres-container
+    container_name: workforce-container
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: Admin@123
+      POSTGRES_USER: workforce
+      POSTGRES_PASSWORD: workforce
       POSTGRES_DB: workforce
     ports:
-      - "5432:5432"
+      - "6432:5432"
     networks:
       - workforce-network
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - workforce-data:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin-container
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@workforce.com
-      PGADMIN_DEFAULT_PASSWORD: Admin@123
+      PGADMIN_DEFAULT_PASSWORD: workforce
     ports:
       - "5050:80"
     networks:
@@ -32,4 +32,4 @@ networks:
   workforce-network:
 
 volumes:
-  postgres-data:
+  workforce-data:

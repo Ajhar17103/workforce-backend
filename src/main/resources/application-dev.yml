@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/workforce
-    username: root
-    password: Admin@123
+    url: jdbc:postgresql://localhost:6432/workforce
+    username: workforce
+    password: workforce
     driver-class-name: org.postgresql.Driver
 
   jpa:
