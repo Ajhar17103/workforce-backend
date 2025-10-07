@@ -34,7 +34,7 @@ public class SprintController extends AbstractController implements SprintApi {
         return generateResponse(
                 sprintService.create(param),
                 HttpStatus.CREATED,
-                i18n("x0.has.been.saved.successfully", "user")
+                i18n("x0.has.been.saved.successfully", "sprint")
         );
     }
 
@@ -43,7 +43,7 @@ public class SprintController extends AbstractController implements SprintApi {
         return generateResponse(
                 sprintService.getById(id),
                 HttpStatus.OK,
-                i18n("x0.get.successfully", "user")
+                i18n("x0.get.successfully", "sprint")
         );
     }
 
@@ -52,7 +52,7 @@ public class SprintController extends AbstractController implements SprintApi {
         return generateResponse(
                 sprintService.getByProjectId(id),
                 HttpStatus.OK,
-                i18n("x0.get.successfully", "user")
+                i18n("x0.get.successfully", "sprints")
         );
     }
 
@@ -61,7 +61,7 @@ public class SprintController extends AbstractController implements SprintApi {
             return generateResponse(
                     sprintService.getAll(),
                     HttpStatus.OK,
-                    i18n("x0.get.successfully", "users")
+                    i18n("x0.get.successfully", "sprints")
             );
     }
 
@@ -71,7 +71,7 @@ public class SprintController extends AbstractController implements SprintApi {
         return generateResponse(
                 sprintService.update(param),
                 HttpStatus.OK,
-                i18n("x0.has.been.updated.successfully", "user")
+                i18n("x0.has.been.updated.successfully", "sprint")
         );
     }
 
@@ -80,7 +80,7 @@ public class SprintController extends AbstractController implements SprintApi {
         return generateResponse(
                 sprintService.statusUpdate(id),
                 HttpStatus.OK,
-                i18n("x0.status.has.been.updated.successfully", "user")
+                i18n("x0.status.has.been.updated.successfully", "sprint")
         );
     }
 
@@ -89,7 +89,7 @@ public class SprintController extends AbstractController implements SprintApi {
         sprintService.delete(id);
         return generateResponse(
                 HttpStatus.NO_CONTENT,
-                i18n("x0.has.been.deleted.successfully", "user")
+                i18n("x0.has.been.deleted.successfully", "sprint")
         );
     }
 }

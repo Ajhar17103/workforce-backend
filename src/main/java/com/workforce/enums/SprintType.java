@@ -12,7 +12,7 @@ import java.util.Objects;
 public enum SprintType {
     PLANNED(1, "PLANNED"),
     ACTIVE(2, "ACTIVE"),
-    COMPLETED(2, "COMPLETED"),
+    COMPLETED(3, "COMPLETED"),
     UNKNOWN(0, "UNKNOWN");
 
     private final Integer id;
