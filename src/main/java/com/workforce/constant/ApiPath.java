@@ -18,6 +18,7 @@ public final class ApiPath {
     public static final String MASTER_DATA = SEPARATOR + "master-data";
     public static final String TASK_BOARD = SEPARATOR + "task-board";
     public static final String ATTENDANCE = SEPARATOR + "attendance-insight";
+    public static final String LEAVE = SEPARATOR + "leave-insight";
 
     public static final class Auth {
         public static final String ROOT_PATH = BASE_PATH + VERSION + SEPARATOR + "auths";
@@ -76,9 +77,17 @@ public final class ApiPath {
     }
 
     public static class Attendance {
-        public static final String ROOT_PATH =ATTENDANCE + BASE_PATH + VERSION + SEPARATOR + "attendances";
+        public static final String ROOT_PATH = ATTENDANCE + BASE_PATH + VERSION + SEPARATOR + "attendances";
         public static final String ATTENDANCE_IDENTIFIER = IDENTIFIER_ID;
         public static final String ATTENDANCE_BY_USER_IDENTIFIER = "/by-user"+ IDENTIFIER_ID;
         public static final String ATTENDANCE_BY_USER_IDENTIFIER_AND_WORK_DATE = SEPARATOR+ "by-user-work-date";
     }
+
+    public static class AllocatedLeave {
+        public static final String ROOT_PATH = LEAVE + BASE_PATH + VERSION + SEPARATOR + "allocated-leaves";
+        public static final String ALLOCATED_LEAVE_IDENTIFIER = IDENTIFIER_ID;
+        public static final String ALLOCATED_LEAVE_BY_USER_IDENTIFIER = "/by-user" + IDENTIFIER_ID;
+        public static final String ALLOCATED_LEAVE_FOR_ALL_USER_IDENTIFIER = "/all" + "/{year}";
+    }
+
 }
