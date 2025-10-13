@@ -3,6 +3,8 @@ package com.workforce.service.impl;
 import com.workforce.dto.leave.AllocatedLeaveDto;
 import com.workforce.entity.leave.AllocatedLeave;
 import com.workforce.entity.master.User;
+import com.workforce.enums.LeaveFor;
+import com.workforce.enums.LeaveType;
 import com.workforce.exception.DataAlreadyExistsException;
 import com.workforce.exception.DataNotFoundException;
 import com.workforce.mapper.AllocatedLeaveMapper;
@@ -87,6 +89,68 @@ public class AllocatedLeaveServiceImpl implements AllocatedLeaveService {
         return entityToDto(updateReturnEntity(param));
     }
 
+    @Transactional
+    public void partialUpdate(UUID userId, LeaveType leaveType, Double totalDays) {
+        Optional<AllocatedLeave> allocatedLeave = allocatedLeaveRepository.findByUserId(userId);
+
+        if (allocatedLeave.isPresent()) {
+            AllocatedLeave entity = allocatedLeave.get();
+
+            switch (leaveType.getType().toUpperCase()) {
+                case "SICK" -> {
+                    double taken = entity.getTakenSickLeave() == null ? 0.0 : entity.getTakenSickLeave();
+                    entity.setTakenSickLeave(taken + totalDays);
+                }
+                case "CASUAL" -> {
+                    double taken = entity.getTakenCasualLeave() == null ? 0.0 : entity.getTakenCasualLeave();
+                    entity.setTakenCasualLeave(taken + totalDays);
+                }
+                case "ANNUAL" -> {
+                    double taken = entity.getTakenAnnualLeave() == null ? 0.0 : entity.getTakenAnnualLeave();
+                    entity.setTakenAnnualLeave(taken + totalDays);
+                }
+                case "PAID" -> {
+                    double taken = entity.getPaidLeave() == null ? 0.0 : entity.getPaidLeave();
+                    entity.setPaidLeave(taken + totalDays);
+                }
+                default -> throw new IllegalArgumentException("Invalid leave type: " + leaveType.getType());
+            }
+
+            entityToDto(entity);
+        }
+    }
+
+    @Transactional
+    public void partialReduce(UUID userId, LeaveType leaveType, Double totalDays) {
+        Optional<AllocatedLeave> allocatedLeave = allocatedLeaveRepository.findByUserId(userId);
+
+        if (allocatedLeave.isPresent()) {
+            AllocatedLeave entity = allocatedLeave.get();
+
+            switch (leaveType.getType().toUpperCase()) {
+                case "SICK" -> {
+                    double taken = entity.getTakenSickLeave() == null ? 0.0 : entity.getTakenSickLeave();
+                    entity.setTakenSickLeave(taken - totalDays);
+                }
+                case "CASUAL" -> {
+                    double taken = entity.getTakenCasualLeave() == null ? 0.0 : entity.getTakenCasualLeave();
+                    entity.setTakenCasualLeave(taken - totalDays);
+                }
+                case "ANNUAL" -> {
+                    double taken = entity.getTakenAnnualLeave() == null ? 0.0 : entity.getTakenAnnualLeave();
+                    entity.setTakenAnnualLeave(taken - totalDays);
+                }
+                case "PAID" -> {
+                    double taken = entity.getPaidLeave() == null ? 0.0 : entity.getPaidLeave();
+                    entity.setPaidLeave(taken - totalDays);
+                }
+                default -> throw new IllegalArgumentException("Invalid leave type: " + leaveType.getType());
+            }
+
+            entityToDto(entity);
+        }
+    }
+
     @Override
     @Transactional
     public AllocatedLeaveDto statusUpdate(UUID id) {
@@ -133,9 +197,10 @@ public class AllocatedLeaveServiceImpl implements AllocatedLeaveService {
             entity.setUser(user);
         }
         if(param.getUserId()!=null && param.getFiscalYear() != null) {
-           allocatedLeaveRepository.findByUserIdAndFiscalYear(param.getUserId(), param.getFiscalYear()).ifPresent(u -> {
-               throw new DataAlreadyExistsException("Already allocated leave");
-           });;
+            Optional<AllocatedLeave> existingEntity = allocatedLeaveRepository.findByUserIdAndFiscalYear(param.getUserId(), param.getFiscalYear());
+            if (existingEntity.isPresent() && (entity.getId() == null || !existingEntity.get().getId().equals(entity.getId()))) {
+                    throw new DataAlreadyExistsException("Already allocated leave");
+            }
         }
 
         entity = allocatedLeaveMapper.paramToEntity(param, entity);

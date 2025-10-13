@@ -9,15 +9,17 @@ import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(force = true)
-public enum LeaveFor {
-    FULL_DAY(1, "FULL_DAY"),
-    HALF_DAY(2, "HALF_DAY"),
+public enum LeaveStatus {
+    PENDING(1, "PENDING"),
+    APPROVED(2, "APPROVED"),
+    REJECTED(3, "REJECTED"),
+    CANCELLED(4, "CANCELLED"),
     UNKNOWN(0, "UNKNOWN");
 
     private final Integer id;
     private String type;
 
-    LeaveFor(Integer id, String type) {
+    LeaveStatus(Integer id, String type) {
         this.id = id;
         this.type = type;
     }
@@ -27,8 +29,8 @@ public enum LeaveFor {
         return this.type;
     }
 
-    public static LeaveFor getById(Integer id) {
-        for (LeaveFor leaveFor : LeaveFor.values()) {
+    public static LeaveStatus getById(Integer id) {
+        for (LeaveStatus leaveFor : LeaveStatus.values()) {
             if(leaveFor.getId().equals(id)) {
                 return leaveFor;
             }
@@ -36,8 +38,8 @@ public enum LeaveFor {
         return UNKNOWN;
     }
 
-    public static LeaveFor getByType(String type) {
-        for (LeaveFor leaveFor : LeaveFor.values()) {
+    public static LeaveStatus getByType(String type) {
+        for (LeaveStatus leaveFor : LeaveStatus.values()) {
             if (leaveFor.getType().equals(type)) {
                 return leaveFor;
             }
@@ -46,15 +48,15 @@ public enum LeaveFor {
     }
 
     @Converter
-    public static class LeaveForConverter implements AttributeConverter<LeaveFor, Integer> {
+    public static class LeaveStatusConverter implements AttributeConverter<LeaveStatus, Integer> {
         @Override
-        public Integer convertToDatabaseColumn(LeaveFor taskType) {
+        public Integer convertToDatabaseColumn(LeaveStatus taskType) {
             return Objects.nonNull(taskType) ? taskType.getId() : UNKNOWN.id;
         }
 
         @Override
-        public LeaveFor convertToEntityAttribute(Integer id) {
-            return Objects.nonNull(id) ? LeaveFor.getById(id) : UNKNOWN;
+        public LeaveStatus convertToEntityAttribute(Integer id) {
+            return Objects.nonNull(id) ? LeaveStatus.getById(id) : UNKNOWN;
         }
     }
 }

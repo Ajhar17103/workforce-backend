@@ -13,6 +13,7 @@ public enum LeaveType {
     SICK(1, "SICK"),
     CASUAL(2, "CASUAL"),
     ANNUAL(3, "ANNUAL"),
+    PAID(3, "PAID"),
     UNKNOWN(0, "UNKNOWN");
 
     private final Integer id;

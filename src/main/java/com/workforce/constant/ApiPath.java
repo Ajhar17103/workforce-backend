@@ -90,4 +90,9 @@ public final class ApiPath {
         public static final String ALLOCATED_LEAVE_FOR_ALL_USER_IDENTIFIER = "/all" + "/{year}";
     }
 
+    public static class LeaveRequest {
+        public static final String ROOT_PATH = LEAVE + BASE_PATH + VERSION + SEPARATOR + "leave-requests";
+        public static final String LEAVE_REQUEST_IDENTIFIER = IDENTIFIER_ID;
+        public static final String LEAVE_REQUEST_BY_USER_IDENTIFIER = "/by-user" + IDENTIFIER_ID;
+    }
 }
