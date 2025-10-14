@@ -19,6 +19,7 @@ public final class ApiPath {
     public static final String TASK_BOARD = SEPARATOR + "task-board";
     public static final String ATTENDANCE = SEPARATOR + "attendance-insight";
     public static final String LEAVE = SEPARATOR + "leave-insight";
+    public static final String STANDUP = SEPARATOR + "standup-insight";
 
     public static final class Auth {
         public static final String ROOT_PATH = BASE_PATH + VERSION + SEPARATOR + "auths";
@@ -94,5 +95,12 @@ public final class ApiPath {
         public static final String ROOT_PATH = LEAVE + BASE_PATH + VERSION + SEPARATOR + "leave-requests";
         public static final String LEAVE_REQUEST_IDENTIFIER = IDENTIFIER_ID;
         public static final String LEAVE_REQUEST_BY_USER_IDENTIFIER = "/by-user" + IDENTIFIER_ID;
+    }
+
+    public static class DailyStandup {
+        public static final String ROOT_PATH = STANDUP + BASE_PATH + VERSION + SEPARATOR + "daily-standups";
+        public static final String DAILY_STANDUP_IDENTIFIER = IDENTIFIER_ID;
+        public static final String DAILY_STANDUP_BY_USER_IDENTIFIER = "/by-user" + IDENTIFIER_ID;
+        public static final String DAILY_STANDUP_BY_TO_DATE_IDENTIFIER = "/by-date" + "/{date}";
     }
 }
