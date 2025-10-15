@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -43,7 +44,9 @@ public class TaskDto extends BaseDto {
 
     private String taskType;
 
-    private LocalDate startDate;
+    private LocalDateTime startDate;
+
+    private LocalDateTime endDate;
 
     private String estimatedTime;
 

@@ -1,6 +1,8 @@
 package com.workforce.repository;
 
 
+import com.workforce.entity.master.Project;
+import com.workforce.entity.master.User;
 import com.workforce.entity.task_board.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +25,8 @@ public interface TaskRepository extends JpaRepository<Task, UUID> {
 
     @Query("SELECT t FROM Task t WHERE t.project.id = :projectId AND t.deleted = false")
     List<Task> taskByProjectId(@Param("projectId") UUID projectId);
+
+    List<Task> findByProject(Project project);
+
+    List<Task> findByUser(User user);
 }

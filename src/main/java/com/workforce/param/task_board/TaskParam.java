@@ -12,6 +12,7 @@ import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -56,8 +57,11 @@ public class TaskParam extends BaseParam {
     @Schema(example = "PLANNED", description = "Type of task")
     private TaskType taskType;
 
-    @Schema(example = "2025-08-21", description = "Planned start date of the task")
-    private LocalDate startDate;
+    @Schema(example = "2025-10-14T17:30:00", description = "Planned start date of the task")
+    private LocalDateTime startDate;
+
+    @Schema(example = "2025-10-14T17:30:00", description = "Planned end date of the task")
+    private LocalDateTime endDate;
 
     @Schema(example = "02:30:00", description = "Estimated time to complete the task (HH:mm:ss)")
     private String estimatedTime;

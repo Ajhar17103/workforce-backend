@@ -38,7 +38,7 @@ public interface DailyStandupApi extends GetApi<DailyStandupDto>, GetAllApi<Dail
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @Operation(summary = "Get all allocated leave records")
+    @Operation(summary = "Get all daily standup records")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Daily Standup retrieved successfully",
                     content = {@Content(mediaType = "application/json")}),
@@ -62,7 +62,7 @@ public interface DailyStandupApi extends GetApi<DailyStandupDto>, GetAllApi<Dail
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Get all allocated leave records for a user")
+    @Operation(summary = "Get all daily standup records for a user")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Daily Standup retrieved successfully",
                     content = {@Content(mediaType = "application/json")}),
@@ -73,7 +73,7 @@ public interface DailyStandupApi extends GetApi<DailyStandupDto>, GetAllApi<Dail
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Get all allocated leave records for a user")
+    @Operation(summary = "Get all daily standup records for a user")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Daily Standup retrieved successfully",
                     content = {@Content(mediaType = "application/json")}),
@@ -84,7 +84,7 @@ public interface DailyStandupApi extends GetApi<DailyStandupDto>, GetAllApi<Dail
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Update allocated leave")
+    @Operation(summary = "Update daily standup")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Daily Standup updated successfully",
                     content = {@Content(mediaType = "application/json")}),

@@ -20,6 +20,7 @@ public class TaskMapper {
         if (param.getPriority() != null) entity.setPriority(param.getPriority());
         if (param.getTaskType() != null) entity.setTaskType(param.getTaskType());
         if (param.getStartDate() != null) entity.setStartDate(param.getStartDate());
+        if (param.getEndDate() != null) entity.setEndDate(param.getEndDate());
         if (param.getEstimatedTime() != null) entity.setEstimatedTime(param.getEstimatedTime());
         if (param.getTaskStatus() != null) entity.setTaskStatus(param.getTaskStatus());
         if (param.getChallenges() != null) entity.setChallenges(param.getChallenges());
@@ -60,6 +61,7 @@ public class TaskMapper {
         dto.setTaskType(entity.getTaskType() != null ? entity.getTaskType().name() : null);
 
         dto.setStartDate(entity.getStartDate());
+        dto.setEndDate(entity.getEndDate());
         dto.setEstimatedTime(entity.getEstimatedTime());
         dto.setTaskStatus(entity.getTaskStatus());
         dto.setChallenges(entity.getChallenges());

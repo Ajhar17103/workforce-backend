@@ -15,6 +15,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -58,7 +59,9 @@ public class Task extends BaseEntity {
     @Convert(converter = TaskType.TaskTypeConverter.class)
     private TaskType taskType=TaskType.UNKNOWN;
 
-    private LocalDate startDate;
+    private LocalDateTime startDate;
+
+    private LocalDateTime endDate;
 
     private String estimatedTime;
 

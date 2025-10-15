@@ -20,6 +20,7 @@ public final class ApiPath {
     public static final String ATTENDANCE = SEPARATOR + "attendance-insight";
     public static final String LEAVE = SEPARATOR + "leave-insight";
     public static final String STANDUP = SEPARATOR + "standup-insight";
+    public static final String REPORT = SEPARATOR + "report";
 
     public static final class Auth {
         public static final String ROOT_PATH = BASE_PATH + VERSION + SEPARATOR + "auths";
@@ -102,5 +103,12 @@ public final class ApiPath {
         public static final String DAILY_STANDUP_IDENTIFIER = IDENTIFIER_ID;
         public static final String DAILY_STANDUP_BY_USER_IDENTIFIER = "/by-user" + IDENTIFIER_ID;
         public static final String DAILY_STANDUP_BY_TO_DATE_IDENTIFIER = "/by-date" + "/{date}";
+    }
+
+    public static class Report {
+        public static final String PROJECT_REPORT = REPORT + BASE_PATH + VERSION + SEPARATOR + "project-reports";
+        public static final String USER_TASK_REPORT = REPORT + BASE_PATH + VERSION + SEPARATOR + "user-task-reports";
+        public static final String STANDUP_REPORT = REPORT + BASE_PATH + VERSION + SEPARATOR + "standup-reports";
+        public static final String TODAY_STANDUP_REPORT = REPORT + BASE_PATH + VERSION + SEPARATOR + "standup-reports-by-date"+ "/{date}";
     }
 }
