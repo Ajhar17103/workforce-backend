@@ -93,5 +93,4 @@ public class ReportController extends AbstractController implements ReportApi {
                 i18n("x0.get.successfully", "sprint.reports")
         );
     }
-
 }
