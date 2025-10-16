@@ -2,12 +2,11 @@ package com.workforce.controller;
 
 import com.workforce.common.AbstractController;
 import com.workforce.controller.api.ReportApi;
-import com.workforce.dto.daily_standup.DailyStandupDto;
 import com.workforce.dto.report.ProjectReportDto;
 import com.workforce.dto.report.UserTaskReportDto;
-import com.workforce.param.PageableParam;
 import com.workforce.service.DailyStandupService;
 import com.workforce.service.ReportService;
+import com.workforce.service.SprintService;
 import com.workforce.support.ListResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +22,13 @@ public class ReportController extends AbstractController implements ReportApi {
 
     private final ReportService reportService;
     private final DailyStandupService dailyStandupService;
+    private final SprintService sprintService;
 
     @Autowired
-    public ReportController(ReportService reportService, DailyStandupService dailyStandupService) {
+    public ReportController(ReportService reportService, DailyStandupService dailyStandupService, SprintService sprintService) {
         this.reportService = reportService;
         this.dailyStandupService = dailyStandupService;
+        this.sprintService = sprintService;
     }
 
     @Override
@@ -36,6 +37,15 @@ public class ReportController extends AbstractController implements ReportApi {
                 reportService.getProjectReport(),
                 HttpStatus.OK,
                 i18n("x0.get.successfully", "project.report")
+        );
+    }
+
+    @Override
+    public ResponseEntity<ListResponseDto<UserTaskReportDto>> findTodayUserTaskReport() {
+        return generateResponse(
+                reportService.getTodayUserTaskReport(),
+                HttpStatus.OK,
+                i18n("x0.get.successfully", "user.task.report")
         );
     }
 
@@ -49,11 +59,11 @@ public class ReportController extends AbstractController implements ReportApi {
     }
 
     @Override
-    public ResponseEntity<?>  findStandupReport(PageableParam pageableParam) {
+    public ResponseEntity<?>  findStandupReport() {
         return generateResponse(
                 dailyStandupService.getAll(),
                 HttpStatus.OK,
-                i18n("x0.get.successfully", "all.standup.report")
+                i18n("x0.get.successfully", "all.scrum.report")
         );
     }
 
@@ -62,7 +72,25 @@ public class ReportController extends AbstractController implements ReportApi {
         return generateResponse(
                 dailyStandupService.getByToDate(date),
                 HttpStatus.OK,
-                i18n("x0.get.successfully", "today.standup.report")
+                i18n("x0.get.successfully", "today.scrum.report")
+        );
+    }
+
+    @Override
+    public ResponseEntity<?> findDailyAttendanceReport() {
+        return generateResponse(
+                reportService.getDailyAttendanceReport(),
+                HttpStatus.OK,
+                i18n("x0.get.successfully", "daily.attendance.report")
+        );
+    }
+
+    @Override
+    public ResponseEntity<?> findAllSprintReport() {
+        return generateResponse(
+                sprintService.getAll(),
+                HttpStatus.OK,
+                i18n("x0.get.successfully", "sprint.reports")
         );
     }
 

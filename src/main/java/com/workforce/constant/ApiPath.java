@@ -107,8 +107,12 @@ public final class ApiPath {
 
     public static class Report {
         public static final String PROJECT_REPORT = REPORT + BASE_PATH + VERSION + SEPARATOR + "project-reports";
+        public static final String TODAY_USER_TASK_REPORT = REPORT + BASE_PATH + VERSION + SEPARATOR + "daily-user-task-reports";
         public static final String USER_TASK_REPORT = REPORT + BASE_PATH + VERSION + SEPARATOR + "user-task-reports";
         public static final String STANDUP_REPORT = REPORT + BASE_PATH + VERSION + SEPARATOR + "standup-reports";
         public static final String TODAY_STANDUP_REPORT = REPORT + BASE_PATH + VERSION + SEPARATOR + "standup-reports-by-date"+ "/{date}";
+        public static final String DAILY_ATTENDANCE_REPORT = REPORT + BASE_PATH + VERSION + SEPARATOR + "daily-attendance-reports";
+        public static final String SPRINT_REPORT = REPORT + BASE_PATH + VERSION + SEPARATOR + "sprints-reports";
+
     }
 }

@@ -28,7 +28,14 @@ public interface ReportApi {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Get user-task report", description = "Returns all projects with assigned users and task statistics (total, completed, in-progress).")
+    @Operation(summary = "Get daily user task report", description = "Returns all projects with assigned users and task statistics (total, completed, in-progress).")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Daily User Task report generated successfully", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UserTaskReportDto.class))}), @ApiResponse(responseCode = "404", description = "No User Task report data found", content = @Content(schema = @Schema(hidden = true)))})
+    @GetMapping(value = ApiPath.Report.TODAY_USER_TASK_REPORT, produces = APPLICATION_JSON_VALUE)
+    default ResponseEntity<ListResponseDto<UserTaskReportDto>> findTodayUserTaskReport() {
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Operation(summary = "Get user task report", description = "Returns all projects with assigned users and task statistics (total, completed, in-progress).")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "User Task report generated successfully", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UserTaskReportDto.class))}), @ApiResponse(responseCode = "404", description = "No User Task report data found", content = @Content(schema = @Schema(hidden = true)))})
     @GetMapping(value = ApiPath.Report.USER_TASK_REPORT, produces = APPLICATION_JSON_VALUE)
     default ResponseEntity<ListResponseDto<UserTaskReportDto>> findUserTaskReport() {
@@ -36,16 +43,30 @@ public interface ReportApi {
     }
 
     @Operation(summary = "Get all daily standup report")
-    @ApiResponses({@ApiResponse(responseCode = "200", description = "Daily Standup  report retrieved successfully", content = {@Content(mediaType = "application/json")}), @ApiResponse(responseCode = "404", description = "No attendance found", content = @Content(schema = @Schema(implementation = DailyStandupDto.class)))})
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Daily Standup report retrieved successfully", content = {@Content(mediaType = "application/json")}), @ApiResponse(responseCode = "404", description = "No attendance found", content = @Content(schema = @Schema(implementation = DailyStandupDto.class)))})
     @GetMapping(value = ApiPath.Report.STANDUP_REPORT, produces = APPLICATION_JSON_VALUE)
-    default ResponseEntity<?> findStandupReport(@Schema(hidden = true) PageableParam pageable) {
+    default ResponseEntity<?> findStandupReport() {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Operation(summary = "Get today daily standup report")
-    @ApiResponses({@ApiResponse(responseCode = "200", description = "Today Daily Standup  report retrieved successfully", content = {@Content(mediaType = "application/json")}), @ApiResponse(responseCode = "404", description = "No attendance found", content = @Content(schema = @Schema(implementation = DailyStandupDto.class)))})
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Today Daily Standup report retrieved successfully", content = {@Content(mediaType = "application/json")}), @ApiResponse(responseCode = "404", description = "No attendance found", content = @Content(schema = @Schema(implementation = DailyStandupDto.class)))})
     @GetMapping(value = ApiPath.Report.TODAY_STANDUP_REPORT, produces = APPLICATION_JSON_VALUE)
     default ResponseEntity<?> findAllByToDate(@PathVariable LocalDate date) {
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Operation(summary = "Get daily attendance report")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Daily attendance report retrieved successfully", content = {@Content(mediaType = "application/json")}), @ApiResponse(responseCode = "404", description = "No attendance found", content = @Content(schema = @Schema(implementation = DailyStandupDto.class)))})
+    @GetMapping(value = ApiPath.Report.DAILY_ATTENDANCE_REPORT, produces = APPLICATION_JSON_VALUE)
+    default ResponseEntity<?> findDailyAttendanceReport() {
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Operation(summary = "Get all sprint report")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Sprint report retrieved successfully", content = {@Content(mediaType = "application/json")}), @ApiResponse(responseCode = "404", description = "No attendance found", content = @Content(schema = @Schema(implementation = DailyStandupDto.class)))})
+    @GetMapping(value = ApiPath.Report.SPRINT_REPORT, produces = APPLICATION_JSON_VALUE)
+    default ResponseEntity<?> findAllSprintReport() {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

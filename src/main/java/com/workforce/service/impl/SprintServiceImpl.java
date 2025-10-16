@@ -86,7 +86,6 @@ public class SprintServiceImpl implements SprintService {
     private Sprint createReturnEntity(SprintParam param) throws Exception {
         Sprint entity = new Sprint();
 
-
         if (param.getProjectId() != null) {
             Project project = projectRepository.findById(param.getProjectId())
                     .orElseThrow(() -> new DataNotFoundException("Project not found with id: " + param.getProjectId()));
