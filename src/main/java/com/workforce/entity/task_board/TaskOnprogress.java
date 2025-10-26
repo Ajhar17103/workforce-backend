@@ -28,7 +28,7 @@ public class TaskOnprogress extends BaseEntity {
     @JoinColumn(name = "task_id", nullable = false)
     private Task task;
 
-    private LocalDateTime startTime;
+    private LocalDateTime startDateTime;
 
-    private LocalDateTime endTime;
+    private LocalDateTime endDateTime;
 }

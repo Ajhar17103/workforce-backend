@@ -5,18 +5,21 @@ import com.workforce.entity.master.Sprint;
 import com.workforce.entity.task_board.Task;
 import com.workforce.dto.task_board.TaskDto;
 import com.workforce.entity.master.User;
+import com.workforce.entity.task_board.TaskOnHold;
+import com.workforce.entity.task_board.TaskOnprogress;
+import com.workforce.enums.TaskStatus;
 import com.workforce.exception.DataNotFoundException;
 import com.workforce.param.task_board.TaskParam;
-import com.workforce.repository.ProjectRepository;
-import com.workforce.repository.SprintRepository;
-import com.workforce.repository.TaskRepository;
-import com.workforce.repository.UserRepository;
+import com.workforce.repository.*;
 import com.workforce.service.TaskService;
 import com.workforce.mapper.TaskMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -30,6 +33,8 @@ public class TaskServiceImpl implements TaskService {
     private final SprintRepository sprintRepository;
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
+    private final TaskOnHoldRepository taskOnHoldRepository;
+    private final TaskOnProgressRepository taskOnProgressRepository;
 
     @Override
     @Transactional
@@ -92,11 +97,24 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.save(entity);
     }
 
+    @Transactional
     private Task updateReturnEntity(TaskParam param) {
         Task entity = getEntityById(param.getId());
         entity = paramToEntity(param, entity);
+
+        TaskStatus status = param.getTaskStatus();
+        if (status != null) {
+            switch (status) {
+                case HOLD -> taskOnHold(param);
+                case IN_PROGRESS -> taskOnProgress(param);
+                case COMPLETED -> taskCompleted(param);
+            }
+            entity.setTaskStatus(status);
+        }
+
         return taskRepository.save(entity);
     }
+
 
 
 
@@ -128,4 +146,82 @@ public class TaskServiceImpl implements TaskService {
 
         return entity;
     }
+
+    @Transactional
+    private void taskOnHold(TaskParam param) {
+        Task task = getEntityById(param.getId());
+
+        // ✅ Close any open progress record
+        taskOnProgressRepository
+                .findTopByTaskIdAndEndDateTimeIsNullOrderByStartDateTimeDesc(task.getId())
+                .ifPresent(activeProgress -> {
+                    activeProgress.setEndDateTime(LocalDateTime.now());
+                    taskOnProgressRepository.save(activeProgress);
+                });
+
+        // ✅ Prevent duplicate open hold record
+        if (taskOnHoldRepository
+                .findTopByTaskIdAndEndDateTimeIsNullOrderByStartDateTimeDesc(task.getId())
+                .isPresent()) {
+            throw new IllegalStateException("Task is already on hold");
+        }
+
+        // ✅ Create new on-hold record
+        TaskOnHold taskOnHold = new TaskOnHold();
+        taskOnHold.setTask(task);
+        taskOnHold.setStartDateTime(LocalDateTime.now());
+        taskOnHold.setEndDateTime(null);
+
+        taskOnHoldRepository.save(taskOnHold);
+    }
+
+    @Transactional
+    private void taskOnProgress(TaskParam param) {
+        Task task = getEntityById(param.getId());
+
+        // ✅ Close any open hold record
+        taskOnHoldRepository
+                .findTopByTaskIdAndEndDateTimeIsNullOrderByStartDateTimeDesc(task.getId())
+                .ifPresent(activeHold -> {
+                    activeHold.setEndDateTime(LocalDateTime.now());
+                    taskOnHoldRepository.save(activeHold);
+                });
+
+        // ✅ Prevent duplicate open progress record
+        if (taskOnProgressRepository
+                .findTopByTaskIdAndEndDateTimeIsNullOrderByStartDateTimeDesc(task.getId())
+                .isPresent()) {
+            throw new IllegalStateException("Task is already in progress");
+        }
+
+        // ✅ Create new progress record
+        TaskOnprogress progress = new TaskOnprogress();
+        progress.setTask(task);
+        progress.setStartDateTime(LocalDateTime.now());
+        progress.setEndDateTime(null);
+
+        taskOnProgressRepository.save(progress);
+    }
+
+    @Transactional
+    private void taskCompleted(TaskParam param) {
+        Task task = getEntityById(param.getId());
+
+        // ✅ Close open progress record
+        taskOnProgressRepository
+                .findTopByTaskIdAndEndDateTimeIsNullOrderByStartDateTimeDesc(task.getId())
+                .ifPresent(activeProgress -> {
+                    activeProgress.setEndDateTime(LocalDateTime.now());
+                    taskOnProgressRepository.save(activeProgress);
+                });
+
+        // ✅ Close open hold record (if any)
+        taskOnHoldRepository
+                .findTopByTaskIdAndEndDateTimeIsNullOrderByStartDateTimeDesc(task.getId())
+                .ifPresent(activeHold -> {
+                    activeHold.setEndDateTime(LocalDateTime.now());
+                    taskOnHoldRepository.save(activeHold);
+                });
+    }
+
 }

@@ -9,6 +9,7 @@ import com.workforce.entity.attendance.AttendanceEvent;
 import com.workforce.entity.master.Project;
 import com.workforce.entity.master.User;
 import com.workforce.entity.task_board.Task;
+import com.workforce.entity.task_board.TaskOnprogress;
 import com.workforce.enums.AttendanceDailyStatus;
 import com.workforce.enums.AttendanceType;
 import com.workforce.enums.TaskStatus;
@@ -37,6 +38,7 @@ public class ReportServiceImpl implements ReportService {
     private final TaskRepository taskRepository;
     private final AttendanceRepository attendanceRepository;
     private final LeaveRequestRepository leaveRequestRepository;
+    private final TaskOnProgressRepository taskOnProgressRepository;
 
 
     @Override
@@ -140,8 +142,7 @@ public class ReportServiceImpl implements ReportService {
                     .sum();
 
             double spentTime = userTasks.stream()
-                    .filter(t -> t.getStartDate() != null && t.getEndDate() != null)
-                    .mapToDouble(t -> Duration.between(t.getStartDate(), t.getEndDate()).toMinutes() / 60.0)
+                    .mapToDouble(task -> getTotalSpentHours(task.getId()))
                     .sum();
 
             UserTaskReportDto dto = new UserTaskReportDto();
@@ -183,11 +184,9 @@ public class ReportServiceImpl implements ReportService {
                     })
                     .sum();
 
-            Double spentTime = userTasks.stream()
-                    .filter(t -> t.getStartDate() != null && t.getEndDate() != null)
-                    .mapToDouble(t -> Duration.between(t.getStartDate(), t.getEndDate()).toMinutes() / 60.0)
+            double spentTime = userTasks.stream()
+                    .mapToDouble(task -> getTotalSpentHours(task.getId()))
                     .sum();
-
 
             UserTaskReportDto dto = new UserTaskReportDto();
             dto.setUserId(user.getId().toString());
@@ -204,6 +203,19 @@ public class ReportServiceImpl implements ReportService {
             return dto;
         }).collect(Collectors.toList());
     }
+
+    private double getTotalSpentHours(UUID taskId) {
+        List<TaskOnprogress> progressList = taskOnProgressRepository.findAllByTaskId(taskId);
+
+        Duration total = Duration.ZERO;
+
+        for (TaskOnprogress progress : progressList) {
+            LocalDateTime end = progress.getEndDateTime() != null ? progress.getEndDateTime() : LocalDateTime.now();
+            total = total.plus(Duration.between(progress.getStartDateTime(), end));
+        }
+        return total.toMinutes() / 60.0;
+    }
+
 
     @Override
     public List<DailyAttendanceReportDto> getDailyAttendanceReport() {
