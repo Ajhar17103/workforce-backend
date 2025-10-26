@@ -40,7 +40,7 @@ public interface SprintApi extends GetApi<SprintDto>, GetAllApi<Sprint>, CreateA
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @Operation(summary = "Find menu by ID")
+    @Operation(summary = "Find sprint by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Sprint found",
                     content = {@Content(mediaType = "application/json")}),
@@ -52,7 +52,7 @@ public interface SprintApi extends GetApi<SprintDto>, GetAllApi<Sprint>, CreateA
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Find menu by ID")
+    @Operation(summary = "Find sprint by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Sprint found",
                     content = {@Content(mediaType = "application/json")}),
@@ -63,11 +63,11 @@ public interface SprintApi extends GetApi<SprintDto>, GetAllApi<Sprint>, CreateA
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Get all menus")
+    @Operation(summary = "Get all sprints")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Menus retrieved successfully",
                     content = {@Content(mediaType = "application/json")}),
-            @ApiResponse(responseCode = "404", description = "No menus found", content = @Content(schema = @Schema(implementation = SprintDto.class)))
+            @ApiResponse(responseCode = "404", description = "No sprints found", content = @Content(schema = @Schema(implementation = SprintDto.class)))
     })
     @GetMapping
     @Override
@@ -75,7 +75,7 @@ public interface SprintApi extends GetApi<SprintDto>, GetAllApi<Sprint>, CreateA
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Update menu")
+    @Operation(summary = "Update sprint")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Sprint updated successfully",
                     content = {@Content(mediaType = "application/json")}),
@@ -87,7 +87,7 @@ public interface SprintApi extends GetApi<SprintDto>, GetAllApi<Sprint>, CreateA
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Update menu status")
+    @Operation(summary = "Update sprint status")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Sprint  status updated successfully",
                     content = {@Content(mediaType = "application/json")}),
@@ -99,7 +99,7 @@ public interface SprintApi extends GetApi<SprintDto>, GetAllApi<Sprint>, CreateA
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Delete menu")
+    @Operation(summary = "Delete sprint")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Sprint deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Sprint not found")

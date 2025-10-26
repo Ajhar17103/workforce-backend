@@ -38,7 +38,7 @@ public interface UserApi extends GetApi<UserDto>, GetAllApi<User>, CreateApi<Use
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @Operation(summary = "Find menu by ID")
+    @Operation(summary = "Find user by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "User found",
                     content = {@Content(mediaType = "application/json")}),
@@ -50,11 +50,11 @@ public interface UserApi extends GetApi<UserDto>, GetAllApi<User>, CreateApi<Use
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Get all menus")
+    @Operation(summary = "Get all users")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Menus retrieved successfully",
+            @ApiResponse(responseCode = "200", description = "users retrieved successfully",
                     content = {@Content(mediaType = "application/json")}),
-            @ApiResponse(responseCode = "404", description = "No menus found", content = @Content(schema = @Schema(implementation = UserDto.class)))
+            @ApiResponse(responseCode = "404", description = "No users found", content = @Content(schema = @Schema(implementation = UserDto.class)))
     })
     @GetMapping
     @Override
@@ -62,7 +62,7 @@ public interface UserApi extends GetApi<UserDto>, GetAllApi<User>, CreateApi<Use
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Update menu")
+    @Operation(summary = "Update user")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "User updated successfully",
                     content = {@Content(mediaType = "application/json")}),
@@ -74,7 +74,7 @@ public interface UserApi extends GetApi<UserDto>, GetAllApi<User>, CreateApi<Use
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Update menu status")
+    @Operation(summary = "Update user status")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "User  status updated successfully",
                     content = {@Content(mediaType = "application/json")}),
@@ -86,7 +86,7 @@ public interface UserApi extends GetApi<UserDto>, GetAllApi<User>, CreateApi<Use
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Delete menu")
+    @Operation(summary = "Delete user")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "User deleted successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")

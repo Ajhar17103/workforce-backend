@@ -26,9 +26,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(ApiPath.Department.ROOT_PATH)
 public interface DepartmentApi extends GetApi<DepartmentDto>, GetAllApi<Department>, CreateApi<DepartmentDto, DepartmentParam>, UpdateApi<DepartmentDto, DepartmentParam>, StatusUpdateApi<DepartmentDto>, DeleteApi {
 
-    @Operation(summary = "Create menu")
+    @Operation(summary = "Create Department")
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "User Role created successfully",
+            @ApiResponse(responseCode = "201", description = "Department created successfully",
                     content = {@Content(mediaType = "application/json")}),
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
@@ -38,11 +38,11 @@ public interface DepartmentApi extends GetApi<DepartmentDto>, GetAllApi<Departme
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @Operation(summary = "Find menu by ID")
+    @Operation(summary = "Find department by ID")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "User Role found",
+            @ApiResponse(responseCode = "200", description = "Department found",
                     content = {@Content(mediaType = "application/json")}),
-            @ApiResponse(responseCode = "404", description = "User Role not found", content = @Content(schema = @Schema(implementation = DepartmentDto.class)))
+            @ApiResponse(responseCode = "404", description = "Department not found", content = @Content(schema = @Schema(implementation = DepartmentDto.class)))
     })
     @GetMapping(value = ApiPath.Department.DEPARTMENT_IDENTIFIER)  // e.g., "/{id}"
     @Override
@@ -50,11 +50,11 @@ public interface DepartmentApi extends GetApi<DepartmentDto>, GetAllApi<Departme
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Get all menus")
+    @Operation(summary = "Get all department")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Menus retrieved successfully",
+            @ApiResponse(responseCode = "200", description = "Department retrieved successfully",
                     content = {@Content(mediaType = "application/json")}),
-            @ApiResponse(responseCode = "404", description = "No menus found", content = @Content(schema = @Schema(implementation = DepartmentDto.class)))
+            @ApiResponse(responseCode = "404", description = "No Department found", content = @Content(schema = @Schema(implementation = DepartmentDto.class)))
     })
     @GetMapping
     @Override
@@ -62,11 +62,11 @@ public interface DepartmentApi extends GetApi<DepartmentDto>, GetAllApi<Departme
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Update menu")
+    @Operation(summary = "Update department")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "User Role updated successfully",
+            @ApiResponse(responseCode = "200", description = "Department updated successfully",
                     content = {@Content(mediaType = "application/json")}),
-            @ApiResponse(responseCode = "404", description = "User Role not found", content = @Content(schema = @Schema(implementation = DepartmentDto.class)))
+            @ApiResponse(responseCode = "404", description = "Department not found", content = @Content(schema = @Schema(implementation = DepartmentDto.class)))
     })
     @PutMapping(value = ApiPath.Department.DEPARTMENT_IDENTIFIER)
     @Override
@@ -74,11 +74,11 @@ public interface DepartmentApi extends GetApi<DepartmentDto>, GetAllApi<Departme
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Update menu status")
+    @Operation(summary = "Update department status")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "User Role status updated successfully",
+            @ApiResponse(responseCode = "200", description = "Department status updated successfully",
                     content = {@Content(mediaType = "application/json")}),
-            @ApiResponse(responseCode = "404", description = "User Role not found", content = @Content(schema = @Schema(implementation = DepartmentDto.class)))
+            @ApiResponse(responseCode = "404", description = "Department not found", content = @Content(schema = @Schema(implementation = DepartmentDto.class)))
     })
     @PatchMapping(value = ApiPath.Department.DEPARTMENT_IDENTIFIER)
     @Override
@@ -86,10 +86,10 @@ public interface DepartmentApi extends GetApi<DepartmentDto>, GetAllApi<Departme
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Delete menu")
+    @Operation(summary = "Delete department")
     @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "User Role deleted successfully"),
-            @ApiResponse(responseCode = "404", description = "User Role not found")
+            @ApiResponse(responseCode = "204", description = "Department deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Department not found")
     })
     @DeleteMapping(value = ApiPath.Department.DEPARTMENT_IDENTIFIER)
     @Override

@@ -26,9 +26,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(ApiPath.Designation.ROOT_PATH)
 public interface DesignationApi extends GetApi<DesignationDto>, GetAllApi<Designation>, CreateApi<DesignationDto, DesignationParam>, UpdateApi<DesignationDto, DesignationParam>, StatusUpdateApi<DesignationDto>, DeleteApi {
 
-    @Operation(summary = "Create menu")
+    @Operation(summary = "Create designation")
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "User Role created successfully",
+            @ApiResponse(responseCode = "201", description = "Designation created successfully",
                     content = {@Content(mediaType = "application/json")}),
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
@@ -38,11 +38,11 @@ public interface DesignationApi extends GetApi<DesignationDto>, GetAllApi<Design
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @Operation(summary = "Find menu by ID")
+    @Operation(summary = "Find designation by ID")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "User Role found",
+            @ApiResponse(responseCode = "200", description = "Designation found",
                     content = {@Content(mediaType = "application/json")}),
-            @ApiResponse(responseCode = "404", description = "User Role not found", content = @Content(schema = @Schema(implementation = DesignationDto.class)))
+            @ApiResponse(responseCode = "404", description = "Designation not found", content = @Content(schema = @Schema(implementation = DesignationDto.class)))
     })
     @GetMapping(value = ApiPath.Designation.DESIGNATION_IDENTIFIER)  // e.g., "/{id}"
     @Override
@@ -50,11 +50,11 @@ public interface DesignationApi extends GetApi<DesignationDto>, GetAllApi<Design
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Get all menus")
+    @Operation(summary = "Get all designation")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Menus retrieved successfully",
+            @ApiResponse(responseCode = "200", description = "Designation retrieved successfully",
                     content = {@Content(mediaType = "application/json")}),
-            @ApiResponse(responseCode = "404", description = "No menus found", content = @Content(schema = @Schema(implementation = DesignationDto.class)))
+            @ApiResponse(responseCode = "404", description = "No designation found", content = @Content(schema = @Schema(implementation = DesignationDto.class)))
     })
     @GetMapping
     @Override
@@ -62,11 +62,11 @@ public interface DesignationApi extends GetApi<DesignationDto>, GetAllApi<Design
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Update menu")
+    @Operation(summary = "Update designation")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "User Role updated successfully",
+            @ApiResponse(responseCode = "200", description = "Designation updated successfully",
                     content = {@Content(mediaType = "application/json")}),
-            @ApiResponse(responseCode = "404", description = "User Role not found", content = @Content(schema = @Schema(implementation = DesignationDto.class)))
+            @ApiResponse(responseCode = "404", description = "Designation not found", content = @Content(schema = @Schema(implementation = DesignationDto.class)))
     })
     @PutMapping(value = ApiPath.Designation.DESIGNATION_IDENTIFIER)
     @Override
@@ -74,11 +74,11 @@ public interface DesignationApi extends GetApi<DesignationDto>, GetAllApi<Design
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Update menu status")
+    @Operation(summary = "Update designation status")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "User Role status updated successfully",
+            @ApiResponse(responseCode = "200", description = "Designation status updated successfully",
                     content = {@Content(mediaType = "application/json")}),
-            @ApiResponse(responseCode = "404", description = "User Role not found", content = @Content(schema = @Schema(implementation = DesignationDto.class)))
+            @ApiResponse(responseCode = "404", description = "Designation not found", content = @Content(schema = @Schema(implementation = DesignationDto.class)))
     })
     @PatchMapping(value = ApiPath.Designation.DESIGNATION_IDENTIFIER)
     @Override
@@ -86,10 +86,10 @@ public interface DesignationApi extends GetApi<DesignationDto>, GetAllApi<Design
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Delete menu")
+    @Operation(summary = "Delete designation")
     @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "User Role deleted successfully"),
-            @ApiResponse(responseCode = "404", description = "User Role not found")
+            @ApiResponse(responseCode = "204", description = "Designation deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Designation not found")
     })
     @DeleteMapping(value = ApiPath.Designation.DESIGNATION_IDENTIFIER)
     @Override

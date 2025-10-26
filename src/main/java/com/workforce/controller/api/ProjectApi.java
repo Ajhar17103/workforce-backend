@@ -41,7 +41,7 @@ public interface ProjectApi extends GetApi<ProjectDto>, GetAllApi<Project>, Crea
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @Operation(summary = "Find menu by ID")
+    @Operation(summary = "Find project by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Project found",
                     content = {@Content(mediaType = "application/json")}),
@@ -53,7 +53,7 @@ public interface ProjectApi extends GetApi<ProjectDto>, GetAllApi<Project>, Crea
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Find menu by ID")
+    @Operation(summary = "Find project by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Sprint found",
                     content = {@Content(mediaType = "application/json")}),
@@ -64,11 +64,11 @@ public interface ProjectApi extends GetApi<ProjectDto>, GetAllApi<Project>, Crea
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Get all menus")
+    @Operation(summary = "Get all project")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Menus retrieved successfully",
+            @ApiResponse(responseCode = "200", description = "Project retrieved successfully",
                     content = {@Content(mediaType = "application/json")}),
-            @ApiResponse(responseCode = "404", description = "No menus found", content = @Content(schema = @Schema(implementation = ProjectDto.class)))
+            @ApiResponse(responseCode = "404", description = "No projects found", content = @Content(schema = @Schema(implementation = ProjectDto.class)))
     })
     @GetMapping
     @Override
@@ -76,7 +76,7 @@ public interface ProjectApi extends GetApi<ProjectDto>, GetAllApi<Project>, Crea
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Update menu")
+    @Operation(summary = "Update project")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Project updated successfully",
                     content = {@Content(mediaType = "application/json")}),
@@ -88,7 +88,7 @@ public interface ProjectApi extends GetApi<ProjectDto>, GetAllApi<Project>, Crea
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Update menu status")
+    @Operation(summary = "Update project status")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Project  status updated successfully",
                     content = {@Content(mediaType = "application/json")}),
@@ -100,7 +100,7 @@ public interface ProjectApi extends GetApi<ProjectDto>, GetAllApi<Project>, Crea
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Delete menu")
+    @Operation(summary = "Delete project")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Project deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Project not found")
