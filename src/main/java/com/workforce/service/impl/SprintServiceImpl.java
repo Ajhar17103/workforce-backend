@@ -43,7 +43,7 @@ public class SprintServiceImpl implements SprintService {
         projectRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Project not found with id: " + id));
 
-        return sprintRepository.findByProjectId(id)
+        return sprintRepository.findByProjectIdOrderByCreatedAtDesc(id)
                 .stream()
                 .map(this::entityToDto)
                 .collect(Collectors.toList());

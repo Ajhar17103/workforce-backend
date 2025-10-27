@@ -114,6 +114,7 @@ public final class ApiPath {
         public static final String DAILY_ATTENDANCE_REPORT = REPORT + BASE_PATH + VERSION + SEPARATOR + "daily-attendance-reports";
         public static final String SPRINT_REPORT = REPORT + BASE_PATH + VERSION + SEPARATOR + "sprints-reports";
         public static final String PROJECT_OVERVIEW_REPORT = REPORT + BASE_PATH + VERSION + SEPARATOR + "project-overview-reports";
+        public static final String PROJECT_ROAD_REPORT = REPORT + BASE_PATH + VERSION + SEPARATOR + "project-roadmap-reports";
 
     }
 }

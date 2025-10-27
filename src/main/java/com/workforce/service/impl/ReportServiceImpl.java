@@ -4,6 +4,7 @@ import com.workforce.dto.report.*;
 import com.workforce.entity.attendance.Attendance;
 import com.workforce.entity.attendance.AttendanceEvent;
 import com.workforce.entity.master.Project;
+import com.workforce.entity.master.Sprint;
 import com.workforce.entity.master.User;
 import com.workforce.entity.task_board.Task;
 import com.workforce.entity.task_board.TaskOnprogress;
@@ -37,6 +38,7 @@ public class ReportServiceImpl implements ReportService {
     private final AttendanceRepository attendanceRepository;
     private final LeaveRequestRepository leaveRequestRepository;
     private final TaskOnProgressRepository taskOnProgressRepository;
+    private final SprintRepository sprintRepository;
 
 
     @Override
@@ -328,4 +330,46 @@ public class ReportServiceImpl implements ReportService {
 
         return reports;
     }
+
+    @Override
+    public List<ProjectRoadMapReportDto> getProjectRoadMapReport(UUID projectId) {
+        List<Sprint> sprints = sprintRepository.findByProjectIdOrderByCreatedAtDesc(projectId);
+
+        if (sprints.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<Task> projectTasks = taskRepository.findByProjectId(projectId);
+
+        return sprints.stream().map(sprint -> {
+            List<Task> sprintTasks = projectTasks.stream()
+                    .filter(task -> task.getSprint().getId().equals(sprint.getId()))
+                    .toList();
+
+            List<ProjectTaskListReportDto> taskDtos = sprintTasks.stream()
+                    .map(task -> {
+                        ProjectTaskListReportDto dto = new ProjectTaskListReportDto();
+                        dto.setTaskId(task.getId());
+                        dto.setTaskName(task.getName());
+                        dto.setTaskStatus(task.getTaskStatus());
+                        dto.setUserId(task.getUser().getId());
+                        dto.setUserName(task.getUser().getName());
+                        return dto;
+                    })
+                    .toList();
+
+            ProjectRoadMapReportDto reportDto = new ProjectRoadMapReportDto();
+            reportDto.setSprintId(sprint.getId());
+            reportDto.setSprintName(sprint.getName());
+            reportDto.setProjectId(sprint.getProject().getId());
+            reportDto.setProjectName(sprint.getProject().getName());
+            reportDto.setStartDate(sprint.getStartDate());
+            reportDto.setEndDate(sprint.getEndDate());
+            reportDto.setSprintType(sprint.getSprintType());
+            reportDto.setTaskList(taskDtos);
+
+            return reportDto;
+        }).toList();
+    }
+
 }

@@ -4,6 +4,7 @@ import com.workforce.common.AbstractController;
 import com.workforce.controller.api.ReportApi;
 import com.workforce.dto.report.ProjectOverviewReportDto;
 import com.workforce.dto.report.ProjectReportDto;
+import com.workforce.dto.report.ProjectRoadMapReportDto;
 import com.workforce.dto.report.UserTaskReportDto;
 import com.workforce.service.DailyStandupService;
 import com.workforce.service.ReportService;
@@ -102,6 +103,15 @@ public class ReportController extends AbstractController implements ReportApi {
                 reportService.getProjectOverviewReport(projectId),
                 HttpStatus.OK,
                 i18n("x0.get.successfully", "project.overview.report")
+        );
+    }
+
+    @Override
+    public ResponseEntity<ListResponseDto<ProjectRoadMapReportDto>> findProjectRoadMapReport(UUID projectId) {
+        return generateResponse(
+                reportService.getProjectRoadMapReport(projectId),
+                HttpStatus.OK,
+                i18n("x0.get.successfully", "project.roadmap.report")
         );
     }
 }
