@@ -1,9 +1,6 @@
 package com.workforce.service.impl;
 
-import com.workforce.dto.report.DailyAttendanceReportDto;
-import com.workforce.dto.report.ProjectReportDto;
-import com.workforce.dto.report.UserSummaryDto;
-import com.workforce.dto.report.UserTaskReportDto;
+import com.workforce.dto.report.*;
 import com.workforce.entity.attendance.Attendance;
 import com.workforce.entity.attendance.AttendanceEvent;
 import com.workforce.entity.master.Project;
@@ -13,6 +10,7 @@ import com.workforce.entity.task_board.TaskOnprogress;
 import com.workforce.enums.AttendanceDailyStatus;
 import com.workforce.enums.AttendanceType;
 import com.workforce.enums.TaskStatus;
+import com.workforce.enums.TaskTracker;
 import com.workforce.repository.*;
 import com.workforce.service.ReportService;
 import lombok.RequiredArgsConstructor;
@@ -298,5 +296,36 @@ public class ReportServiceImpl implements ReportService {
         }
 
         return summary;
+    }
+
+    @Override
+    public List<ProjectOverviewReportDto> getProjectOverviewReport(UUID projectId) {
+        List<Task> allTasks = taskRepository.findByProjectId(projectId);
+
+        List<ProjectOverviewReportDto> reports = Arrays.stream(TaskTracker.values())
+                .filter(tracker -> tracker != TaskTracker.UNKNOWN)
+                .map(tracker -> {
+                    List<Task> trackerTasks = allTasks.stream()
+                            .filter(t -> t.getTaskTracker() == tracker)
+                            .toList();
+
+                    ProjectOverviewReportDto dto = new ProjectOverviewReportDto();
+                    dto.setName(tracker.name());
+                    dto.setTotal(trackerTasks.size());
+                    dto.setOpen((int) trackerTasks.stream()
+                            .filter(t -> t.getTaskStatus() == TaskStatus.TO_DO)
+                            .count());
+                    dto.setClosed((int) trackerTasks.stream()
+                            .filter(t -> t.getTaskStatus() == TaskStatus.COMPLETED)
+                            .count());
+                    dto.setHold((int) trackerTasks.stream()
+                            .filter(t -> t.getTaskStatus() == TaskStatus.HOLD)
+                            .count());
+                    return dto;
+                })
+                .sorted(Comparator.comparing(ProjectOverviewReportDto::getName))
+                .toList();
+
+        return reports;
     }
 }

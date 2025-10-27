@@ -2,6 +2,7 @@ package com.workforce.controller;
 
 import com.workforce.common.AbstractController;
 import com.workforce.controller.api.ReportApi;
+import com.workforce.dto.report.ProjectOverviewReportDto;
 import com.workforce.dto.report.ProjectReportDto;
 import com.workforce.dto.report.UserTaskReportDto;
 import com.workforce.service.DailyStandupService;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -91,6 +93,15 @@ public class ReportController extends AbstractController implements ReportApi {
                 sprintService.getAll(),
                 HttpStatus.OK,
                 i18n("x0.get.successfully", "sprint.reports")
+        );
+    }
+
+    @Override
+    public ResponseEntity<ListResponseDto<ProjectOverviewReportDto>> findProjectOverviewReport(UUID projectId) {
+        return generateResponse(
+                reportService.getProjectOverviewReport(projectId),
+                HttpStatus.OK,
+                i18n("x0.get.successfully", "project.overview.report")
         );
     }
 }

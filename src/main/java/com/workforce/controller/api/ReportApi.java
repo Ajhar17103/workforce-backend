@@ -2,6 +2,7 @@ package com.workforce.controller.api;
 
 import com.workforce.constant.ApiPath;
 import com.workforce.dto.daily_standup.DailyStandupDto;
+import com.workforce.dto.report.ProjectOverviewReportDto;
 import com.workforce.dto.report.ProjectReportDto;
 import com.workforce.dto.report.UserTaskReportDto;
 import com.workforce.param.PageableParam;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -64,9 +66,16 @@ public interface ReportApi {
     }
 
     @Operation(summary = "Get all sprint report")
-    @ApiResponses({@ApiResponse(responseCode = "200", description = "Sprint report retrieved successfully", content = {@Content(mediaType = "application/json")}), @ApiResponse(responseCode = "404", description = "No attendance found", content = @Content(schema = @Schema(implementation = DailyStandupDto.class)))})
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Sprint report retrieved successfully", content = {@Content(mediaType = "application/json")}), @ApiResponse(responseCode = "404", description = "No Sprint found", content = @Content(schema = @Schema(implementation = DailyStandupDto.class)))})
     @GetMapping(value = ApiPath.Report.SPRINT_REPORT, produces = APPLICATION_JSON_VALUE)
     default ResponseEntity<?> findAllSprintReport() {
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Operation(summary = "Get project overview report")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Project overview report retrieved successfully", content = {@Content(mediaType = "application/json")}), @ApiResponse(responseCode = "404", description = "No project overview found", content = @Content(schema = @Schema(implementation = DailyStandupDto.class)))})
+    @GetMapping(value = ApiPath.Report.PROJECT_OVERVIEW_REPORT, produces = APPLICATION_JSON_VALUE)
+    default ResponseEntity<ListResponseDto<ProjectOverviewReportDto>> findProjectOverviewReport(UUID projectId) {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
