@@ -33,7 +33,6 @@ public class TaskParam extends BaseParam {
     @Schema(example = "f290f1ee-6c54-4b01-90e6-d701748f0851", description = "Sprint Id associated with the task")
     private UUID sprintId;
 
-
     @Schema(example = "u290f1ee-6c54-4b01-90e6-d701748f0851", description = "User Id assigned to the task")
     private UUID userId;
 

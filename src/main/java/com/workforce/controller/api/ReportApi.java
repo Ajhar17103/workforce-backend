@@ -2,11 +2,7 @@ package com.workforce.controller.api;
 
 import com.workforce.constant.ApiPath;
 import com.workforce.dto.daily_standup.DailyStandupDto;
-import com.workforce.dto.report.ProjectOverviewReportDto;
-import com.workforce.dto.report.ProjectReportDto;
-import com.workforce.dto.report.ProjectRoadMapReportDto;
-import com.workforce.dto.report.UserTaskReportDto;
-import com.workforce.param.PageableParam;
+import com.workforce.dto.report.*;
 import com.workforce.support.ListResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -82,8 +78,15 @@ public interface ReportApi {
 
     @Operation(summary = "Get project roadmap report")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Project roadmap report retrieved successfully", content = {@Content(mediaType = "application/json")}), @ApiResponse(responseCode = "404", description = "No project roadmap found", content = @Content(schema = @Schema(implementation = DailyStandupDto.class)))})
-    @GetMapping(value = ApiPath.Report.PROJECT_ROAD_REPORT, produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = ApiPath.Report.PROJECT_ROAD_MAP_REPORT, produces = APPLICATION_JSON_VALUE)
     default ResponseEntity<ListResponseDto<ProjectRoadMapReportDto>> findProjectRoadMapReport(UUID projectId) {
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Operation(summary = "Get project time spent report")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Project time spent report retrieved successfully", content = {@Content(mediaType = "application/json")}), @ApiResponse(responseCode = "404", description = "No project roadmap found", content = @Content(schema = @Schema(implementation = DailyStandupDto.class)))})
+    @GetMapping(value = ApiPath.Report.PROJECT_TIME_SPENT_REPORT, produces = APPLICATION_JSON_VALUE)
+    default ResponseEntity<ListResponseDto<ProjectTimeSpentReportDto>> findProjectTimeSpentReport(UUID projectId) {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

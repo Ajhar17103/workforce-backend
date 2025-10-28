@@ -17,9 +17,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -98,7 +98,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Transactional
-    private Task updateReturnEntity(TaskParam param) {
+    public Task updateReturnEntity(TaskParam param) {
         Task entity = getEntityById(param.getId());
         entity = paramToEntity(param, entity);
 
@@ -107,16 +107,18 @@ public class TaskServiceImpl implements TaskService {
             switch (status) {
                 case HOLD -> taskOnHold(param);
                 case IN_PROGRESS -> taskOnProgress(param);
-                case COMPLETED -> taskCompleted(param);
+                case COMPLETED -> {
+                    taskCompleted(param);
+                    double spent = getTotalSpentHours(entity.getId());
+                    spent = Math.round(spent * 100.0) / 100.0;
+                    entity.setSpentTime(spent);
+                }
             }
             entity.setTaskStatus(status);
         }
 
         return taskRepository.save(entity);
     }
-
-
-
 
     private TaskDto entityToDto(Task entity) {
         return taskMapper.entityToDto(entity);
@@ -148,10 +150,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Transactional
-    private void taskOnHold(TaskParam param) {
+    public void taskOnHold(TaskParam param) {
         Task task = getEntityById(param.getId());
 
-        // ✅ Close any open progress record
         taskOnProgressRepository
                 .findTopByTaskIdAndEndDateTimeIsNullOrderByStartDateTimeDesc(task.getId())
                 .ifPresent(activeProgress -> {
@@ -159,14 +160,12 @@ public class TaskServiceImpl implements TaskService {
                     taskOnProgressRepository.save(activeProgress);
                 });
 
-        // ✅ Prevent duplicate open hold record
         if (taskOnHoldRepository
                 .findTopByTaskIdAndEndDateTimeIsNullOrderByStartDateTimeDesc(task.getId())
                 .isPresent()) {
             throw new IllegalStateException("Task is already on hold");
         }
 
-        // ✅ Create new on-hold record
         TaskOnHold taskOnHold = new TaskOnHold();
         taskOnHold.setTask(task);
         taskOnHold.setStartDateTime(LocalDateTime.now());
@@ -176,10 +175,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Transactional
-    private void taskOnProgress(TaskParam param) {
+    public void taskOnProgress(TaskParam param) {
         Task task = getEntityById(param.getId());
 
-        // ✅ Close any open hold record
         taskOnHoldRepository
                 .findTopByTaskIdAndEndDateTimeIsNullOrderByStartDateTimeDesc(task.getId())
                 .ifPresent(activeHold -> {
@@ -187,14 +185,12 @@ public class TaskServiceImpl implements TaskService {
                     taskOnHoldRepository.save(activeHold);
                 });
 
-        // ✅ Prevent duplicate open progress record
         if (taskOnProgressRepository
                 .findTopByTaskIdAndEndDateTimeIsNullOrderByStartDateTimeDesc(task.getId())
                 .isPresent()) {
             throw new IllegalStateException("Task is already in progress");
         }
 
-        // ✅ Create new progress record
         TaskOnprogress progress = new TaskOnprogress();
         progress.setTask(task);
         progress.setStartDateTime(LocalDateTime.now());
@@ -204,10 +200,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Transactional
-    private void taskCompleted(TaskParam param) {
+    public void taskCompleted(TaskParam param) {
         Task task = getEntityById(param.getId());
 
-        // ✅ Close open progress record
         taskOnProgressRepository
                 .findTopByTaskIdAndEndDateTimeIsNullOrderByStartDateTimeDesc(task.getId())
                 .ifPresent(activeProgress -> {
@@ -215,13 +210,24 @@ public class TaskServiceImpl implements TaskService {
                     taskOnProgressRepository.save(activeProgress);
                 });
 
-        // ✅ Close open hold record (if any)
         taskOnHoldRepository
                 .findTopByTaskIdAndEndDateTimeIsNullOrderByStartDateTimeDesc(task.getId())
                 .ifPresent(activeHold -> {
                     activeHold.setEndDateTime(LocalDateTime.now());
                     taskOnHoldRepository.save(activeHold);
                 });
+    }
+
+    private double getTotalSpentHours(UUID taskId) {
+        List<TaskOnprogress> progressList = taskOnProgressRepository.findAllByTaskId(taskId);
+
+        Duration total = Duration.ZERO;
+
+        for (TaskOnprogress progress : progressList) {
+            LocalDateTime end = progress.getEndDateTime() != null ? progress.getEndDateTime() : LocalDateTime.now();
+            total = total.plus(Duration.between(progress.getStartDateTime(), end));
+        }
+        return total.toMinutes() / 60.0;
     }
 
 }

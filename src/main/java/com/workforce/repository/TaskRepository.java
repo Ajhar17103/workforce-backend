@@ -22,7 +22,7 @@ public interface TaskRepository extends JpaRepository<Task, UUID> {
 
     List<Task> findByUser(User user);
 
-    List<Task> findByProjectId(UUID projectId);
+    List<Task> findByProjectIdOrderByCreatedAtDesc(UUID projectId);
 
     List<Task> findByProjectIdAndSprintId(UUID projectId,  UUID sprintId);
 }

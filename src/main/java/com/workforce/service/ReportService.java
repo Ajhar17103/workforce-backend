@@ -18,4 +18,6 @@ public interface ReportService {
     List<ProjectOverviewReportDto> getProjectOverviewReport(UUID projectId);
 
     List<ProjectRoadMapReportDto> getProjectRoadMapReport(UUID projectId);
+
+    List<ProjectTimeSpentReportDto> getProjectTimeSpentReport(UUID projectId);
 }

@@ -5,8 +5,6 @@ import com.workforce.dto.BaseDto;
 import com.workforce.enums.TaskStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -49,6 +47,8 @@ public class TaskDto extends BaseDto {
     private LocalDateTime endDate;
 
     private String estimatedTime;
+
+    private Double spentTime;
 
     private String fileName;
 

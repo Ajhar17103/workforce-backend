@@ -65,6 +65,8 @@ public class Task extends BaseEntity {
 
     private String estimatedTime;
 
+    private Double spentTime;
+
     @Lob
     @Column(columnDefinition = "TEXT")
     private String file;

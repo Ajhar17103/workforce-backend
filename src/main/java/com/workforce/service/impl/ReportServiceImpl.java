@@ -302,7 +302,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public List<ProjectOverviewReportDto> getProjectOverviewReport(UUID projectId) {
-        List<Task> allTasks = taskRepository.findByProjectId(projectId);
+        List<Task> allTasks = taskRepository.findByProjectIdOrderByCreatedAtDesc(projectId);
 
         List<ProjectOverviewReportDto> reports = Arrays.stream(TaskTracker.values())
                 .filter(tracker -> tracker != TaskTracker.UNKNOWN)
@@ -339,7 +339,7 @@ public class ReportServiceImpl implements ReportService {
             return Collections.emptyList();
         }
 
-        List<Task> projectTasks = taskRepository.findByProjectId(projectId);
+        List<Task> projectTasks = taskRepository.findByProjectIdOrderByCreatedAtDesc(projectId);
 
         return sprints.stream().map(sprint -> {
             List<Task> sprintTasks = projectTasks.stream()
@@ -371,5 +371,85 @@ public class ReportServiceImpl implements ReportService {
             return reportDto;
         }).toList();
     }
+
+    @Override
+    public List<ProjectTimeSpentReportDto> getProjectTimeSpentReport(UUID projectId) {
+        List<Sprint> sprints = sprintRepository.findByProjectIdOrderByCreatedAtDesc(projectId);
+
+        if (sprints.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<Task> projectTasks = taskRepository.findByProjectIdOrderByCreatedAtDesc(projectId);
+
+        return sprints.stream().map(sprint -> {
+            List<Task> sprintTasks = projectTasks.stream()
+                    .filter(task -> task.getSprint().getId().equals(sprint.getId()))
+                    .toList();
+
+            Map<User, List<Task>> userTasksMap = sprintTasks.stream()
+                    .filter(task -> task.getUser() != null)
+                    .collect(Collectors.groupingBy(Task::getUser));
+
+            List<ProjectUserSpentTimeReportDto> userReports = userTasksMap.entrySet().stream().map(entry -> {
+                User user = entry.getKey();
+                List<Task> userTasks = entry.getValue();
+
+                double allocated = userTasks.stream()
+                        .mapToDouble(task -> parseEstimatedTime(task.getEstimatedTime()))
+                        .sum();
+
+                double spent = userTasks.stream()
+                        .mapToDouble(task -> Optional.ofNullable(task.getSpentTime()).orElse(0.0))
+                        .sum();
+
+                ProjectUserSpentTimeReportDto dto = new ProjectUserSpentTimeReportDto();
+//                dto.setId(user.getId());
+                dto.setName(user.getName());
+                dto.setAllocatedTime(allocated);
+                dto.setSpentTime(spent);
+                return dto;
+            }).toList();
+
+            double totalAllocated = userReports.stream()
+                    .mapToDouble(ProjectUserSpentTimeReportDto::getAllocatedTime)
+                    .sum();
+            double totalSpent = userReports.stream()
+                    .mapToDouble(ProjectUserSpentTimeReportDto::getSpentTime)
+                    .sum();
+
+            ProjectTimeSpentReportDto report = new ProjectTimeSpentReportDto();
+            report.setSprintId(sprint.getId());
+            report.setSprintName(sprint.getName());
+            report.setProjectId(sprint.getProject().getId());
+            report.setProjectName(sprint.getProject().getName());
+            report.setStartDate(sprint.getStartDate());
+            report.setEndDate(sprint.getEndDate());
+            report.setSprintType(sprint.getSprintType());
+            report.setAllocatedTime(totalAllocated);
+            report.setSpentTime(totalSpent);
+            report.setUsers(userReports);
+
+            return report;
+        }).toList();
+    }
+
+    private double parseEstimatedTime(String estimatedTime) {
+        if (estimatedTime == null || estimatedTime.isBlank()) return 0.0;
+
+        try {
+            return Double.parseDouble(estimatedTime);
+        } catch (NumberFormatException e) {
+            try {
+                String[] parts = estimatedTime.split(":");
+                int hours = Integer.parseInt(parts[0]);
+                int minutes = Integer.parseInt(parts[1]);
+                return hours + (minutes / 60.0);
+            } catch (Exception ex) {
+                return 0.0;
+            }
+        }
+    }
+
 
 }
